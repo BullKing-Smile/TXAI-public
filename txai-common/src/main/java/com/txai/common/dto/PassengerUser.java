@@ -1,17 +1,16 @@
-package com.txai.servicepassengeruser.dto;
+package com.txai.common.dto;
 
-import com.baomidou.mybatisplus.annotation.TableName;
+//import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("passenger_user")
+//@TableName("passenger_user")
 public class PassengerUser {
     private Long id;
     private String passengerName;
@@ -20,4 +19,5 @@ public class PassengerUser {
     private byte state;
     private LocalDateTime gmtCreate;
     private LocalDateTime gmtModified;
+    private String profilePhoto;
 }
