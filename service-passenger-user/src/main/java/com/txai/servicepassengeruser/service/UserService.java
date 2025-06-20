@@ -1,16 +1,30 @@
 package com.txai.servicepassengeruser.service;
 
 import com.txai.common.dto.ResponseResult;
+import com.txai.servicepassengeruser.dto.PassengerUser;
+import com.txai.servicepassengeruser.mapper.PassengerUserMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
 
+    private final PassengerUserMapper passengerUserMapper;
+    public UserService(PassengerUserMapper passengerUserMapper) {
+        this.passengerUserMapper = passengerUserMapper;
+    }
+
     public ResponseResult loginOrRegister(String passengerPhone, String code) {
 
         // query user's info by passenger phone
+        Map<String, Object> map = new HashMap<>();
+        map.put("passenger_phone", passengerPhone);
+        List<PassengerUser> passengerUsers = passengerUserMapper.selectByMap(map);
 
-
+        System.out.println(passengerUsers == null || passengerUsers.size() == 0 ? "没找到user": "success");
         // it's exists or not
 
         // if not exists do register process
