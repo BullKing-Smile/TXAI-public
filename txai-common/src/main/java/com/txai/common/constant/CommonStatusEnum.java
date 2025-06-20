@@ -2,8 +2,8 @@ package com.txai.common.constant;
 
 public enum CommonStatusEnum {
 
-    SUCCESS(200, "success"),
-    FAIL(-1, "fail");
+    SUCCESS(1, "success"),
+    FAIL(0, "fail");
 
     private int code;
     private String value;

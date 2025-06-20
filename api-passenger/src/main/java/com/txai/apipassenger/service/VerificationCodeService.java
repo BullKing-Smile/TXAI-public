@@ -1,5 +1,6 @@
 package com.txai.apipassenger.service;
 
+import com.txai.apipassenger.remote.ServicePassengerUserClient;
 import com.txai.apipassenger.remote.ServiceVerficationCodeClient;
 import com.txai.common.dto.ResponseResult;
 import com.txai.common.request.VerificationCodeCheckDTO;
@@ -7,6 +8,7 @@ import com.txai.common.response.NumberCodeResponse;
 import org.json.JSONObject;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -17,13 +19,16 @@ public class VerificationCodeService {
     private String verificationCodePrefix = "passenger-verification-code-";
 
     private final ServiceVerficationCodeClient serviceVerficationCodeClient;
+    private final ServicePassengerUserClient servicePassengerUserClient;
     private final StringRedisTemplate redisTemplate;
 
     public VerificationCodeService(
             ServiceVerficationCodeClient serviceVerficationCodeClient,
+            ServicePassengerUserClient servicePassengerUserClient,
             StringRedisTemplate redisTemplate
     ) {
         this.serviceVerficationCodeClient = serviceVerficationCodeClient;
+        this.servicePassengerUserClient = servicePassengerUserClient;
         this.redisTemplate = redisTemplate;
     }
 
@@ -45,13 +50,25 @@ public class VerificationCodeService {
     }
 
     public ResponseResult verificationCodeCheck(VerificationCodeCheckDTO verificationCodeCheckDTO) {
-        String codeRedis = redisTemplate.opsForValue().get(verificationCodePrefix + verificationCodeCheckDTO.getPassengerPhone());
-        if (StringUtils.pathEquals(verificationCodeCheckDTO.getVerificationCode(), codeRedis)) {
+        // query verification code from Redis
+        String codeRedis = redisTemplate.opsForValue().get(getVerificationCodeKey(verificationCodeCheckDTO.getPassengerPhone()));
+        if (ObjectUtils.nullSafeEquals(verificationCodeCheckDTO.getVerificationCode(), codeRedis)) {
             System.out.println("Verification code check success");
             // TODO: 2025/6/20 generate token
+            ResponseResult responseResult = servicePassengerUserClient.loginOrRegister(verificationCodeCheckDTO);
+
+
+            // this logic depends on your requirements
+            // delete the code from Redis after verify only compare equaled
+            redisTemplate.delete(getVerificationCodeKey(verificationCodeCheckDTO.getPassengerPhone()));
+
             return ResponseResult.success().setMessage("Verification code is valid");
         } else {
             return ResponseResult.fail().setMessage("Verification code is invalid");
         }
+    }
+
+    private String getVerificationCodeKey(String phone) {
+        return verificationCodePrefix + phone;
     }
 }
