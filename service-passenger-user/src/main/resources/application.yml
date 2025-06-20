@@ -1,0 +1,14 @@
+server:
+  port: 8023
+
+
+spring:
+  application:
+    name: service-passenger-user
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1
+        port: 8848
+        username: nacos
+        password: nacos
