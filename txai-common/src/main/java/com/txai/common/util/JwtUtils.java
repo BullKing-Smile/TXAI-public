@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.txai.common.dto.TokenResult;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -14,11 +15,13 @@ public class JwtUtils {
 
     //salt
     private static final String SECRET = "8alH3mjfosikk-0pY2b9i";
-    private static final String JWT_KEY = "phone";
-
-    public static String generateToken(String phone) {
+    private static final String JWT_KEY_PHONE = "phone";
+    // 1是乘客   2是司机
+    private static final String JWT_KEY_IDENTITY = "identity";
+    public static String generateToken(String phone, String identity) {
         Map<String, String> map = new HashMap<>();
-        map.put(JWT_KEY, phone);
+        map.put(JWT_KEY_PHONE, phone);
+        map.put(JWT_KEY_IDENTITY, identity);
         return generateToken(map);
     }
 
@@ -43,20 +46,19 @@ public class JwtUtils {
         return token;
     }
 
-    public static boolean verifyToken(String token) {
-        try {
-            JWT.require(Algorithm.HMAC256(SECRET)).build()
-                    .verify(token);
-            return true;
-        } catch (Exception ignore) {
-            return false;
-        }
-    }
+//    public static boolean verifyToken(String token) {
+//        DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC256(SECRET)).build()
+//                .verify(token);
+//        return true;
+//    }
 
-    public static String parseToken(String token) {
+    public static TokenResult parseToken(String token) {
         DecodedJWT verify = JWT.require(Algorithm.HMAC256(SECRET)).build()
                 .verify(token);
-        return verify.getClaim(JWT_KEY).asString();
+        TokenResult tokenResult = new TokenResult();
+        tokenResult.setPhone(verify.getClaim(JWT_KEY_PHONE).asString());
+        tokenResult.setIdentity(verify.getClaim(JWT_KEY_IDENTITY).asString());
+        return tokenResult;
     }
 /*
     public static void main(String[] args) {
