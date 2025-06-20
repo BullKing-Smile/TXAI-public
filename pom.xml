@@ -7,7 +7,6 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-cloud.version>2023.0.0</spring-cloud.version>
     </properties>
 
 
@@ -23,8 +22,10 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
+<!--        <module>txai-common</module>-->
         <module>api-passenger</module>
-        <module>txai-common</module>
+        <module>service-passenger-user</module>
+        <module>service-verificationcode</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -41,6 +42,12 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.txai</groupId>
+            <artifactId>txai-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
