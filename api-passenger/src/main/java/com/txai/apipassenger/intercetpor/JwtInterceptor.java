@@ -5,6 +5,7 @@ import com.auth0.jwt.exceptions.AlgorithmMismatchException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.txai.common.dto.ResponseResult;
+import com.txai.common.dto.TokenResult;
 import com.txai.common.util.JwtUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,8 +22,9 @@ public class JwtInterceptor implements HandlerInterceptor {
         String authorizetion = request.getHeader("Authorization");
         String resultString = "";
         boolean result = true;
+        TokenResult tokenResult = null;
         try {
-            JwtUtils.parseToken(authorizetion);
+            tokenResult = JwtUtils.parseToken(authorizetion);
         } catch (SignatureVerificationException e) {
             resultString = "token sign error";
             result = false;
@@ -41,6 +43,7 @@ public class JwtInterceptor implements HandlerInterceptor {
             response.setContentType(ContentType.APPLICATION_JSON.getMimeType());
             response.getWriter().write(JSONStringer.valueToString(new JSONObject(ResponseResult.fail().setMessage(resultString))));
         }
+        // TODO: 2025/6/20 token 存储在redis 然后跟用户端传递来的 作比较
         return result;
     }
 }
