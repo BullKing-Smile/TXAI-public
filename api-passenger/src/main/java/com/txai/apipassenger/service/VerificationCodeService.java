@@ -2,9 +2,12 @@ package com.txai.apipassenger.service;
 
 import com.txai.apipassenger.remote.ServicePassengerUserClient;
 import com.txai.apipassenger.remote.ServiceVerficationCodeClient;
+import com.txai.apipassenger.response.TokenDTO;
+import com.txai.common.constant.IdentityEnum;
 import com.txai.common.dto.ResponseResult;
 import com.txai.common.request.VerificationCodeCheckDTO;
 import com.txai.common.response.NumberCodeResponse;
+import com.txai.common.util.JwtUtils;
 import org.json.JSONObject;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -54,15 +57,19 @@ public class VerificationCodeService {
         String codeRedis = redisTemplate.opsForValue().get(getVerificationCodeKey(verificationCodeCheckDTO.getPassengerPhone()));
         if (ObjectUtils.nullSafeEquals(verificationCodeCheckDTO.getVerificationCode(), codeRedis)) {
             System.out.println("Verification code check success");
-            // TODO: 2025/6/20 generate token
+            // code verify OK
+            // then check the user exists or not
+            // if not exists do register process
             ResponseResult responseResult = servicePassengerUserClient.loginOrRegister(verificationCodeCheckDTO);
-
-
+            // then generate token
+            String token = JwtUtils.generateToken(verificationCodeCheckDTO.getPassengerPhone(), IdentityEnum.Passenger.getId());
+            TokenDTO tokenDTO = new TokenDTO();
+            tokenDTO.setToken(token);
             // this logic depends on your requirements
             // delete the code from Redis after verify only compare equaled
             redisTemplate.delete(getVerificationCodeKey(verificationCodeCheckDTO.getPassengerPhone()));
 
-            return ResponseResult.success().setMessage("Verification code is valid");
+            return ResponseResult.success().setMessage("Verification code is valid").setData(tokenDTO);
         } else {
             return ResponseResult.fail().setMessage("Verification code is invalid");
         }
