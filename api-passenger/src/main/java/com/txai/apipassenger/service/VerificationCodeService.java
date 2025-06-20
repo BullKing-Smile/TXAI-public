@@ -2,24 +2,23 @@ package com.txai.apipassenger.service;
 
 import com.txai.apipassenger.remote.ServicePassengerUserClient;
 import com.txai.apipassenger.remote.ServiceVerficationCodeClient;
-import com.txai.apipassenger.response.TokenDTO;
+import com.txai.apipassenger.response.TokenResponse;
 import com.txai.common.constant.IdentityEnum;
+import com.txai.common.constant.TokenTypeEnum;
 import com.txai.common.dto.ResponseResult;
 import com.txai.common.request.VerificationCodeCheckDTO;
 import com.txai.common.response.NumberCodeResponse;
 import com.txai.common.util.JwtUtils;
+import com.txai.common.util.RedisPrefixUtils;
 import org.json.JSONObject;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import java.util.concurrent.TimeUnit;
 
 @Service
 public class VerificationCodeService {
-
-    private String verificationCodePrefix = "passenger-verification-code-";
 
     private final ServiceVerficationCodeClient serviceVerficationCodeClient;
     private final ServicePassengerUserClient servicePassengerUserClient;
@@ -42,8 +41,8 @@ public class VerificationCodeService {
         Integer code = numberCodeResponse
                 .getData().getNumberCode();
         System.out.println("remote number code: " + code);
-        // TODO: 2025/6/19 store into Redis
-        String key = verificationCodePrefix + passengerPhone;
+        // store code into Redis
+        String key = RedisPrefixUtils.getVerificationCodeKey(passengerPhone);
         redisTemplate.opsForValue().set(key, String.valueOf(code), 2, TimeUnit.MINUTES);
 
         JSONObject result = new JSONObject();
@@ -54,7 +53,7 @@ public class VerificationCodeService {
 
     public ResponseResult verificationCodeCheck(VerificationCodeCheckDTO verificationCodeCheckDTO) {
         // query verification code from Redis
-        String codeRedis = redisTemplate.opsForValue().get(getVerificationCodeKey(verificationCodeCheckDTO.getPassengerPhone()));
+        String codeRedis = redisTemplate.opsForValue().get(RedisPrefixUtils.getVerificationCodeKey(verificationCodeCheckDTO.getPassengerPhone()));
         if (ObjectUtils.nullSafeEquals(verificationCodeCheckDTO.getVerificationCode(), codeRedis)) {
             System.out.println("Verification code check success");
             // code verify OK
@@ -62,12 +61,22 @@ public class VerificationCodeService {
             // if not exists do register process
             ResponseResult responseResult = servicePassengerUserClient.loginOrRegister(verificationCodeCheckDTO);
             // then generate token
-            String token = JwtUtils.generateToken(verificationCodeCheckDTO.getPassengerPhone(), IdentityEnum.Passenger.getId());
-            TokenDTO tokenDTO = new TokenDTO();
-            tokenDTO.setToken(token);
+            String accessToken = JwtUtils.generateToken(verificationCodeCheckDTO.getPassengerPhone(), IdentityEnum.Passenger.getId(), TokenTypeEnum.Access.getId());
+            String refreshToken = JwtUtils.generateToken(verificationCodeCheckDTO.getPassengerPhone(), IdentityEnum.Passenger.getId(), TokenTypeEnum.Refresh.getId());
+
+            TokenResponse tokenDTO = new TokenResponse();
+            tokenDTO.setAccessToken(accessToken);
+            tokenDTO.setRefreshToken(refreshToken);
             // this logic depends on your requirements
             // delete the code from Redis after verify only compare equaled
-            redisTemplate.delete(getVerificationCodeKey(verificationCodeCheckDTO.getPassengerPhone()));
+            redisTemplate.delete(RedisPrefixUtils.getVerificationCodeKey(verificationCodeCheckDTO.getPassengerPhone()));
+
+
+            // save ACCESS TOKEN to Redis, 24h
+            redisTemplate.opsForValue().set(RedisPrefixUtils.getTokenKeyByIdentity(verificationCodeCheckDTO.getPassengerPhone(), IdentityEnum.Passenger.getId(), TokenTypeEnum.Access.getValue()), accessToken, 24, TimeUnit.HOURS);
+            // keep alive for 30 days for REFRESH TOKEN
+            redisTemplate.opsForValue().set(RedisPrefixUtils.getTokenKeyByIdentity(verificationCodeCheckDTO.getPassengerPhone(), IdentityEnum.Passenger.getId(), TokenTypeEnum.Refresh.getValue()), refreshToken, 30, TimeUnit.DAYS);
+
 
             return ResponseResult.success().setMessage("Verification code is valid").setData(tokenDTO);
         } else {
@@ -75,7 +84,5 @@ public class VerificationCodeService {
         }
     }
 
-    private String getVerificationCodeKey(String phone) {
-        return verificationCodePrefix + phone;
-    }
+
 }
