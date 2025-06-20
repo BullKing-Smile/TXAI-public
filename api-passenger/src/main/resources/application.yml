@@ -11,6 +11,12 @@ spring:
         password: nacos
   application:
     name: api-passenger
+  data:
+    redis:
+      host: localhost
+      port: 5001
+#      username: reids
+      password: mypassword
 
 #spring:
 #  config:

@@ -2,7 +2,10 @@ package com.txai.apipassenger.controller;
 
 import com.txai.apipassenger.request.VerificationCodeDTO;
 import com.txai.apipassenger.service.VerificationCodeService;
+import com.txai.common.dto.ResponseResult;
+import com.txai.common.request.VerificationCodeCheckDTO;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +25,12 @@ public class VerificationCodeController {
     public String verificationCode(@RequestBody VerificationCodeDTO verificationCodeDTO) {
         String phone = verificationCodeDTO.getPassengerPhone();
         int size = verificationCodeDTO.getSize();
-        System.out.println("received phone number is:" + phone +", and size is:"+size);
+        System.out.println("received phone number is:" + phone + ", and size is:" + size);
         return verificationCodeService.generateCode(phone, size);
+    }
+
+    @PostMapping("/verification-code-check")
+    public ResponseResult verificationCodeCheck(@RequestBody VerificationCodeCheckDTO verificationCodeCheckDTO) {
+        return verificationCodeService.verificationCodeCheck(verificationCodeCheckDTO);
     }
 }

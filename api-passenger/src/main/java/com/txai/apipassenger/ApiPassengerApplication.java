@@ -8,8 +8,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableDiscoveryClient
 @SpringBootApplication
 @EnableFeignClients
-public class PassengerApplication {
+public class ApiPassengerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(PassengerApplication.class, args);
+        SpringApplication.run(ApiPassengerApplication.class, args);
     }
 }
