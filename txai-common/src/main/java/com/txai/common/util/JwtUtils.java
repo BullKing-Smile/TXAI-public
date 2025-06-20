@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.txai.common.constant.TokenTypeEnum;
 import com.txai.common.dto.TokenResult;
 
 import java.util.Calendar;
@@ -18,10 +19,16 @@ public class JwtUtils {
     private static final String JWT_KEY_PHONE = "phone";
     // 1是乘客   2是司机
     private static final String JWT_KEY_IDENTITY = "identity";
-    public static String generateToken(String phone, String identity) {
+
+    private static final String JWT_KEY_TOKEN_TYPE = "tokenType";
+
+    private static final String JWT_CREATE_TIME = "create_time";
+
+    public static String generateToken(String phone, String identity, String tokenType) {
         Map<String, String> map = new HashMap<>();
         map.put(JWT_KEY_PHONE, phone);
         map.put(JWT_KEY_IDENTITY, identity);
+        map.put(JWT_KEY_TOKEN_TYPE, tokenType);
         return generateToken(map);
     }
 
@@ -31,13 +38,23 @@ public class JwtUtils {
         header.put("alg", "HS256");
         header.put("typ", "JWT");
 
+        // vital if it's only stored by the Client
+        // trivial it if double stored on the Redis and the Client
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, 1);
+        if (map.containsKey(JWT_KEY_TOKEN_TYPE) && TokenTypeEnum.Refresh.getId().equals(map.get(JWT_KEY_TOKEN_TYPE))) {
+            calendar.add(Calendar.DATE, 30);
+        } else {
+            calendar.add(Calendar.DATE, 1);
+        }
         Date date = calendar.getTime();
 
         JWTCreator.Builder builder = JWT.create();
         // append header
         builder.withHeader(header);
+
+        // append create time millis
+        map.put(JWT_CREATE_TIME, String.valueOf(Calendar.getInstance().getTimeInMillis()));
+
         // append claim
         map.forEach(builder::withClaim);
         //set expiry date
@@ -51,6 +68,19 @@ public class JwtUtils {
 //                .verify(token);
 //        return true;
 //    }
+
+    public static TokenResult checkToken(String token) {
+        try {
+            DecodedJWT verify = JWT.require(Algorithm.HMAC256(SECRET)).build()
+                    .verify(token);
+            TokenResult tokenResult = new TokenResult();
+            tokenResult.setPhone(verify.getClaim(JWT_KEY_PHONE).asString());
+            tokenResult.setIdentity(verify.getClaim(JWT_KEY_IDENTITY).asString());
+            return tokenResult;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     public static TokenResult parseToken(String token) {
         DecodedJWT verify = JWT.require(Algorithm.HMAC256(SECRET)).build()
