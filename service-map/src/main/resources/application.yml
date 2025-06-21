@@ -1,0 +1,18 @@
+server:
+  port: 8025
+
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        username: nacos
+        password: nacos
+  application:
+    name: service-map
+
+
+amap:
+  key: 97d21327f48287242f4cf2c991fed2f0
+  driver-url: https://restapi.amap.com/v3/direction/driving
