@@ -10,6 +10,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new JwtInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/refresh-token", "/noauth", "/verification**");
+                .excludePathPatterns("/refresh-token", "/noauth")
+                .excludePathPatterns("/verification**");
     }
 }

@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class ForecastPriceResponse {
-    private Float price;
+    private Double price;
 }

@@ -1,22 +1,23 @@
 package com.txai.apipassenger.service;
 
-import com.txai.apipassenger.response.ForecastPriceResponse;
+import com.txai.apipassenger.remote.ServicePriceClient;
 import com.txai.common.dto.ForecastPriceDTO;
 import com.txai.common.dto.ResponseResult;
+import com.txai.common.response.ForecastPriceResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
 @Service
 @Slf4j
 public class ForecastPriceService {
+    private final ServicePriceClient servicePriceClient;
 
-    public ResponseResult<ForecastPriceResponse> forecastPrice(String depLongitude, String depLatitude, String destLongitude, String despLatitude) {
+    public ForecastPriceService(ServicePriceClient servicePriceClient) {
+        this.servicePriceClient = servicePriceClient;
+    }
 
-        ForecastPriceResponse response = new ForecastPriceResponse();
-        response.setPrice(12.89f);
-        return ResponseResult.success(response);
+    public ResponseResult<ForecastPriceResponse> forecastPrice(ForecastPriceDTO forecastPriceDTO) {
+
+        return servicePriceClient.forecastPrice(forecastPriceDTO);
     }
 }

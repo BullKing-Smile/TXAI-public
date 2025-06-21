@@ -1,21 +1,33 @@
 package com.txai.serviceprice.service;
 
+import com.txai.common.constant.CommonStatusEnum;
 import com.txai.common.dto.ForecastPriceDTO;
+import com.txai.common.dto.PriceRule;
 import com.txai.common.dto.ResponseResult;
 import com.txai.common.response.DirectionResponse;
 import com.txai.common.response.ForecastPriceResponse;
+import com.txai.common.util.BigDecimalUtils;
+import com.txai.serviceprice.mapper.PriceRuleMapper;
 import com.txai.serviceprice.remote.ServiceMapClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
 public class ForecastPriceService {
 
     private final ServiceMapClient serviceMapClient;
+    private final PriceRuleMapper priceRuleMapper;
 
-    public ForecastPriceService(ServiceMapClient serviceMapClient) {
+    public ForecastPriceService(ServiceMapClient serviceMapClient,
+                                PriceRuleMapper priceRuleMapper) {
         this.serviceMapClient = serviceMapClient;
+        this.priceRuleMapper = priceRuleMapper;
     }
 
     public ResponseResult<ForecastPriceResponse> forecastPrice(ForecastPriceDTO forecastPriceDTO) {
@@ -34,12 +46,70 @@ public class ForecastPriceService {
         } else {
             log.warn("get direction info failed");
         }
-        // TODO 计价规则
+        // 计价规则
+        Map<String, Object> priceQueryMap = new HashMap<>();
+        priceQueryMap.put("city_code", "110000");
+        priceQueryMap.put("vehicle_type", "1");
+        List<PriceRule> priceRules = priceRuleMapper.selectByMap(priceQueryMap);
 
+        if (priceRules.size() == 0) {
+            return ResponseResult.fail(CommonStatusEnum.PRICE_RULE_EXISTS);
+        }
 
-        // TODO 根据距离计算价格
+        // 获得到 计价规则数据对象
+        PriceRule priceRule = priceRules.get(0);
+
+        // 根据距离计算价格
+
+        double price = getPrice(directionResponse.getDistance(), directionResponse.getDuration(), priceRule);
         ForecastPriceResponse response = new ForecastPriceResponse();
-        response.setPrice(12.89f);
+        response.setPrice(price);
         return ResponseResult.success(response);
     }
+
+
+    /**
+     * 根据距离、时长 和计价规则，计算最终价格
+     * @param distance  距离
+     * @param duration  时长
+     * @param priceRule 计价规则
+     * @return
+     */
+    public double getPrice(Integer distance , Integer duration,PriceRule priceRule){
+        double price = 0;
+
+        // 起步价
+        double startFare = priceRule.getStartFare();
+        price = BigDecimalUtils.add(price,startFare);
+
+        // 里程费
+        // 总里程 m
+        double distanceMile = BigDecimalUtils.divide(distance,1000);
+        // 起步里程
+        double startMile = (double)priceRule.getStartMile();
+        double distanceSubtract = BigDecimalUtils.substract(distanceMile,startMile);
+        // 最终收费的里程数 km
+        double mile = distanceSubtract<0?0:distanceSubtract;
+        // 计程单价 元/km
+        double unitPricePerMile = priceRule.getUnitPricePerMile();
+        // 里程价格
+        double mileFare = BigDecimalUtils.multiply(mile,unitPricePerMile);
+        price = BigDecimalUtils.add(price,mileFare);
+
+        // 时长费
+        // 时长的分钟数
+        double timeMinute = BigDecimalUtils.divide(duration,60);
+        // 计时单价
+        double unitPricePerMinute = priceRule.getUnitPricePerMinute();
+
+        // 时长费用
+        double timeFare = BigDecimalUtils.multiply(timeMinute,unitPricePerMinute);
+        price = BigDecimalUtils.add(price,timeFare);
+
+        BigDecimal priceBigDecimal = new BigDecimal(price);
+        priceBigDecimal = priceBigDecimal.setScale(2,BigDecimal.ROUND_HALF_UP);
+
+        return priceBigDecimal.doubleValue();
+    }
+
 }

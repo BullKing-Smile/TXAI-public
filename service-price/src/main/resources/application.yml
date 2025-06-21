@@ -11,11 +11,11 @@ spring:
         server-addr: 127.0.0.1:8848
         username: nacos
         password: nacos
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:13306/service_passenger_user?characterEncoding=utf-8&serverTimezone=GMT%2B8
-#    username: root
-#    password: password
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:13306/service_price?characterEncoding=utf-8&serverTimezone=GMT%2B8
+    username: root
+    password: password
 
 mybatis-plus:
   configuration:
