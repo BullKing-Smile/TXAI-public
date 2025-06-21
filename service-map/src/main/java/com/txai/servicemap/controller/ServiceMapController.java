@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ServiceMapController {
     private final ServiceMapService serviceMapService;
+
     public ServiceMapController(ServiceMapService serviceMapService) {
         this.serviceMapService = serviceMapService;
     }
@@ -19,4 +20,5 @@ public class ServiceMapController {
     public ResponseResult<DirectionResponse> direction(@RequestBody ForecastPriceDTO forecastPriceDTO) {
         return serviceMapService.direct(forecastPriceDTO);
     }
+
 }

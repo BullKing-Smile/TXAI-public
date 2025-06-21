@@ -2,9 +2,12 @@ package com.txai.servicedriveruser.service;
 
 import com.txai.common.constant.CommonStatusEnum;
 import com.txai.common.constant.DriverStateEnum;
+import com.txai.common.constant.DriverWorkStatusEnum;
 import com.txai.common.dto.DriverUser;
+import com.txai.common.dto.DriverUserWorkStatus;
 import com.txai.common.dto.ResponseResult;
 import com.txai.servicedriveruser.mapper.DriverUserMapper;
+import com.txai.servicedriveruser.mapper.DriverUserWorkStatusMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,8 +19,11 @@ import java.util.Map;
 public class DriverUserService {
 
     private final DriverUserMapper driverUserMapper;
-    public DriverUserService(DriverUserMapper driverUserMapper) {
+    private final DriverUserWorkStatusMapper driverUserWorkStatusMapper;
+    public DriverUserService(DriverUserMapper driverUserMapper,
+                             DriverUserWorkStatusMapper driverUserWorkStatusMapper) {
         this.driverUserMapper = driverUserMapper;
+        this.driverUserWorkStatusMapper = driverUserWorkStatusMapper;
     }
 
 
@@ -36,7 +42,17 @@ public class DriverUserService {
         // set create date
         driverUser.setGmtCreate(LocalDateTime.now());
         int insert = driverUserMapper.insert(driverUser);
+
         if (1 == insert) {
+            // after save success
+            // init working status
+            DriverUserWorkStatus workStatus = new DriverUserWorkStatus();
+            workStatus.setDriverId(driverUser.getId());
+            // default stopped
+            workStatus.setWorkStatus(DriverWorkStatusEnum.Stop.getCode());
+            workStatus.setGmtCreate(LocalDateTime.now());
+            driverUserWorkStatusMapper.insert(workStatus);
+
             return ResponseResult.success().setMessage("Save driver success");
         }
         return ResponseResult.fail().setMessage("Save failed!");

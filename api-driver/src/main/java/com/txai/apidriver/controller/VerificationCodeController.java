@@ -24,6 +24,12 @@ public class VerificationCodeController {
         return verificationCodeService.generateCode(driverPhone);
     }
 
+    /**
+     * Login API
+     *
+     * @param verificationCodeCheckDTO verification code entity
+     * @return refresh token and access token
+     */
     @PostMapping("/verification-code-check")
     public ResponseResult verificationCodeCheck(@RequestBody VerificationCodeCheckDTO verificationCodeCheckDTO) {
         return verificationCodeService.verificationCodeCheck(verificationCodeCheckDTO);

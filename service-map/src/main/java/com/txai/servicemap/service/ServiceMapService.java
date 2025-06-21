@@ -1,11 +1,14 @@
 package com.txai.servicemap.service;
 
+import com.txai.common.constant.AmapConfigConstants;
 import com.txai.common.dto.ForecastPriceDTO;
 import com.txai.common.dto.ResponseResult;
 import com.txai.common.response.DirectionResponse;
+import com.txai.servicemap.remote.ServiceClient;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,11 +18,13 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 public class ServiceMapService {
 
-    @Value("${amap.driver-url}")
-    private String driverUrl;
     @Value("${amap.key}")
     private String driverKey;
     private final RestTemplate restTemplate;
+
+    @Autowired
+    private ServiceClient serviceClient;
+
 
     public ServiceMapService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -29,8 +34,7 @@ public class ServiceMapService {
 
         // strategy
 
-        // https://restapi.amap.com/v3/direction/driving?origin=116.481028,39.989643&destination=116.465302,40.004717&extensions=all&output=xml&key=<用户的key>
-        StringBuilder sb = new StringBuilder(driverUrl);
+        StringBuilder sb = new StringBuilder(AmapConfigConstants.DIRECTION_URL);
         sb.append("?origin=")
                 .append(forecastPriceDTO.getDepLongitude())
                 .append(",")
@@ -64,5 +68,15 @@ public class ServiceMapService {
 
         }
         return ResponseResult.fail().setMessage("query direction failed or json parse failed");
+    }
+
+    /**
+     * 创建服务
+     *
+     * @param name
+     * @return
+     */
+    public ResponseResult add(String name) {
+        return serviceClient.add(name);
     }
 }

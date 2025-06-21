@@ -23,3 +23,4 @@ spring:
 amap:
   key: 97d21327f48287242f4cf2c991fed2f0
   driver-url: https://restapi.amap.com/v3/direction/driving
+  sid: 1050409

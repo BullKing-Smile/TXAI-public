@@ -14,18 +14,21 @@ public interface ServiceDriverUserClient {
     ResponseResult<DriverUser> getDriverUser(@PathVariable("driverPhone") String driverPhone);
 
     @RequestMapping(method = RequestMethod.POST, value = "/user")
-    public ResponseResult addDriverUser(@RequestBody DriverUser driverUser);
+    ResponseResult addDriverUser(@RequestBody DriverUser driverUser);
 
     @RequestMapping(method = RequestMethod.PUT, value = "/user")
-    public ResponseResult updateDriverUser(@RequestBody DriverUser driverUser);
+    ResponseResult updateDriverUser(@RequestBody DriverUser driverUser);
 
     @RequestMapping(method = RequestMethod.POST, value = "/car")
-    public ResponseResult addCar(@RequestBody Car car);
+    ResponseResult addCar(@RequestBody Car car);
 
-    @RequestMapping(method = RequestMethod.POST,value = "/driver-car-binding-relationship/bind")
-    public ResponseResult bind(@RequestBody DriverCarBindingRelationship driverCarBindingRelationship);
+    @RequestMapping(method = RequestMethod.GET, value = "/car/{carId}")
+    ResponseResult<Car> getCarById(@PathVariable("carId") Long carId);
 
-    @RequestMapping(method = RequestMethod.POST,value = "/driver-car-binding-relationship/unbind")
+    @RequestMapping(method = RequestMethod.POST, value = "/driver-car-binding-relationship/bind")
+    ResponseResult bind(@RequestBody DriverCarBindingRelationship driverCarBindingRelationship);
+
+    @RequestMapping(method = RequestMethod.POST, value = "/driver-car-binding-relationship/unbind")
     ResponseResult unbind(DriverCarBindingRelationship driverCarBindingRelationship);
 
 }

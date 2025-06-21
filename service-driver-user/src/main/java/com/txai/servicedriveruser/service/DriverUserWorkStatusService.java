@@ -1,5 +1,6 @@
 package com.txai.servicedriveruser.service;
 
+import com.txai.common.constant.CommonStatusEnum;
 import com.txai.common.dto.DriverUserWorkStatus;
 import com.txai.common.dto.ResponseResult;
 import com.txai.servicedriveruser.mapper.DriverUserWorkStatusMapper;
@@ -21,13 +22,16 @@ public class DriverUserWorkStatusService {
         Map<String, Object> queryMap = new HashMap<>();
         queryMap.put("driver_id", driverId);
         List<DriverUserWorkStatus> driverUserWorkStatuses = driverUserWorkStatusMapper.selectByMap(queryMap);
+        if (null == driverUserWorkStatuses || driverUserWorkStatuses.size() == 0) {
+            return ResponseResult.fail(CommonStatusEnum.DRIVER_USER_NOT_EXISTS);
+        }
         DriverUserWorkStatus driverUserWorkStatus = driverUserWorkStatuses.get(0);
 
         driverUserWorkStatus.setWorkStatus(workStatus);
 
         driverUserWorkStatusMapper.updateById(driverUserWorkStatus);
 
-        return ResponseResult.success("");
+        return ResponseResult.success();
 
     }
 
