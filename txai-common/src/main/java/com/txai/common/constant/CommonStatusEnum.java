@@ -11,7 +11,8 @@ public enum CommonStatusEnum {
     PRICE_RULE_EXISTS(4010, "price rule not exists"),
     PRICE_RULE_NOT_EDIT(4011, "price rule not edit"),
     PRICE_RULE_EMPTY(4012, "price rule empty"),
-    DIC_DISTRICT_NOT_EXISTS(5010, "District not exists");
+    DIC_DISTRICT_NOT_EXISTS(5010, "District not exists"),
+    DRIVER_USER_NOT_EXISTS(6010,"Driver user not exists" );
 
     private int code;
     private String value;
