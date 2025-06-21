@@ -1,18 +1,11 @@
 package com.txai.apipassenger.service;
 
-import com.auth0.jwt.exceptions.AlgorithmMismatchException;
-import com.auth0.jwt.exceptions.SignatureVerificationException;
-import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.txai.apipassenger.response.TokenResponse;
 import com.txai.common.constant.CommonStatusEnum;
 import com.txai.common.constant.TokenTypeEnum;
 import com.txai.common.dto.ResponseResult;
 import com.txai.common.dto.TokenResult;
 import com.txai.common.util.JwtUtils;
 import com.txai.common.util.RedisPrefixUtils;
-import org.apache.http.entity.ContentType;
-import org.json.JSONObject;
-import org.json.JSONStringer;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;

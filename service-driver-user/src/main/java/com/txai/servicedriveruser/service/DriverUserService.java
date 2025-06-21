@@ -1,6 +1,7 @@
 package com.txai.servicedriveruser.service;
 
 import com.txai.common.constant.CommonStatusEnum;
+import com.txai.common.constant.DriverStateEnum;
 import com.txai.common.dto.DriverUser;
 import com.txai.common.dto.ResponseResult;
 import com.txai.servicedriveruser.mapper.DriverUserMapper;
@@ -23,6 +24,7 @@ public class DriverUserService {
     public ResponseResult<DriverUser> queryDriverInfoByPhone(String driverPhone) {
         Map<String, Object> map = new HashMap<>();
         map.put("driver_phone", driverPhone);
+        map.put("state", DriverStateEnum.Normal.getCode());
         List<DriverUser> driverUsers = driverUserMapper.selectByMap(map);
         if (null != driverUsers && driverUsers.size() > 0) {
             return ResponseResult.success(driverUsers.get(0));

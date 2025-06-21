@@ -1,4 +1,4 @@
-package com.txai.apipassenger.response;
+package com.txai.common.response;
 
 import lombok.Data;
 

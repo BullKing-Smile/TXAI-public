@@ -4,6 +4,7 @@ import com.txai.apiboss.service.DriverUserService;
 import com.txai.common.dto.DriverUser;
 import com.txai.common.dto.ResponseResult;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +21,12 @@ public class DriverUserController {
     @PostMapping("/driver")
     public ResponseResult save(@RequestBody DriverUser driverUser) {
         return driverUserService.saveDriver(driverUser);
+    }
+
+    @PutMapping("/driver")
+    public ResponseResult update(@RequestBody DriverUser driverUser) {
+        // TODO: 2025/6/21
+        return null;
     }
 
 }

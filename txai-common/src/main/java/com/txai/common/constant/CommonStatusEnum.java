@@ -12,7 +12,12 @@ public enum CommonStatusEnum {
     PRICE_RULE_NOT_EDIT(4011, "price rule not edit"),
     PRICE_RULE_EMPTY(4012, "price rule empty"),
     DIC_DISTRICT_NOT_EXISTS(5010, "District not exists"),
-    DRIVER_USER_NOT_EXISTS(6010,"Driver user not exists" );
+    DRIVER_USER_NOT_EXISTS(6010,"Driver user not exists" ),
+    DRIVER_BIND_EXISTS(6011, "Driver bind exists"),
+    CAR_BIND_EXISTS(6012, "Car bind exists"),
+    DRIVER_CAR_BIND_NOT_EXISTS(6013, "Driver car bind not exists"),
+    DRIVER_CAR_BIND_EXISTS(6014, "Driver car bind exists"),
+    CAR_NOT_EXISTS(6015, "Car not exists");
 
     private int code;
     private String value;
