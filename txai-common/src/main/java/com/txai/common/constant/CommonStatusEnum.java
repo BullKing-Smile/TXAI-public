@@ -17,7 +17,12 @@ public enum CommonStatusEnum {
     CAR_BIND_EXISTS(6012, "Car bind exists"),
     DRIVER_CAR_BIND_NOT_EXISTS(6013, "Driver car bind not exists"),
     DRIVER_CAR_BIND_EXISTS(6014, "Driver car bind exists"),
-    CAR_NOT_EXISTS(6015, "Car not exists");
+    CAR_NOT_EXISTS(6015, "Car not exists"),
+    AVAILABLE_DRIVER_EMPTY(6016, "None driver available"),
+    PRICE_RULE_CHANGED(6017, "Price rule changed"),
+    CITY_SERVICE_NOT_SERVICE(6018, "No service running in this city"),
+    ORDER_GOING_ON(6019, "Order is going on"),
+    ORDER_CANCEL_ERROR(6020, "Order cancel error");
 
     private int code;
     private String value;

@@ -1,0 +1,31 @@
+server:
+  port: 8029
+
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        username: nacos
+        password: nacos
+  application:
+    name: service-order
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:13306/service_order?characterEncoding=utf-8&serverTimezone=GMT%2B8
+    username: root
+    password: password
+  data:
+    redis:
+      host: localhost
+      port: 5001
+      password: mypassword
+
+
+
+amap:
+  key: 97d21327f48287242f4cf2c991fed2f0
+  driver-url: https://restapi.amap.com/v3/direction/driving
+  sid: 1050409
