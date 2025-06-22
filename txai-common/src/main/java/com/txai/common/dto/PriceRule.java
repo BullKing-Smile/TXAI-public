@@ -46,6 +46,7 @@ public class PriceRule implements Serializable {
 
     /**
      * 运价类型编码
+     * city + vehicle + version
      */
     private String fareType;
 
