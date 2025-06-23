@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Driver Client</title>
+</head>
+<body>
+<h1>This is 司机客户端 ！！！</h1>
+
+<button onclick="setMessageContent('鼠标点我了')">测试message展示</button>
+<div id="message">展示服务的推送过来的消息</div>
+
+<button onclick="sourceClose()">关闭连接</button>
+<script>
+    driverId = "1936318418142310402";
+    identity = 2;
+    content = "";
+    source = null;
+    if (window.EventSource) {
+        console.info("此浏览器支持SSE")
+        source = new EventSource("http://localhost:8901/connect?userId="+driverId+"&identity="+identity)
+
+        source.addEventListener("message", function (event) {
+            content = event.data;
+            console.info("消息内容："+content);
+            setMessageContent(content);
+        })
+    } else {
+        setMessageContent("此浏览器不支持SSE");
+        console.info("此浏览器不支持SSE");
+    }
+
+    function setMessageContent(content) {
+        document.getElementById("message").innerHTML+=(content+'</br>');
+    }
+
+    function sourceClose() {
+        console.info("source close ...")
+        // 客户端source 关闭
+        source.close();
+        // 服务端关闭
+        httpRequest = new XMLHttpRequest();
+        httpRequest.open("get", "http://localhost:8901/close/"+driverId);
+        httpRequest.send();
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: service-sse-push
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        username: nacos
+        password: nacos
+server:
+  port: 8901

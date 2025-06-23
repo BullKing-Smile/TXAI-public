@@ -20,6 +20,7 @@ import com.txai.serviceorder.mapper.OrderInfoMapper;
 import com.txai.serviceorder.remote.ServiceDriverUserClient;
 import com.txai.serviceorder.remote.ServiceMapClient;
 import com.txai.serviceorder.remote.ServicePriceClient;
+import com.txai.serviceorder.remote.ServiceSsePushClient;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -53,18 +54,22 @@ public class OrderInfoService {
 
     private final RedissonClient redissonClient;
 
+    private final ServiceSsePushClient serviceSsePushClient;
+
     public OrderInfoService(OrderInfoMapper orderInfoMapper,
                             ServicePriceClient servicePriceClient,
                             ServiceDriverUserClient serviceDriverUserClient,
                             ServiceMapClient serviceMapClient,
                             StringRedisTemplate stringRedisTemplate,
-                            RedissonClient redissonClient) {
+                            RedissonClient redissonClient,
+                            ServiceSsePushClient serviceSsePushClient) {
         this.orderInfoMapper = orderInfoMapper;
         this.servicePriceClient = servicePriceClient;
         this.serviceMapClient = serviceMapClient;
         this.serviceDriverUserClient = serviceDriverUserClient;
         this.stringRedisTemplate = stringRedisTemplate;
         this.redissonClient = redissonClient;
+        this.serviceSsePushClient = serviceSsePushClient;
     }
 
     /**
@@ -150,9 +155,6 @@ public class OrderInfoService {
         return ResponseResult.success();
     }
 
-
-//    @Autowired
-//    ServiceSsePushClient serviceSsePushClient;
 
     /**
      * 实时订单派单逻辑
@@ -270,8 +272,9 @@ public class OrderInfoService {
                     pushRequest.setIdentity(IdentityEnum.Driver.getId());
                     pushRequest.setContent(driverContent.toString());
 
-                    // TODO: 2025/6/22  
-//                    serviceSsePushClient.push(pushRequest);
+                    // TODO: 2025/6/22
+                    log.info("推送通知司机");
+                    serviceSsePushClient.push(pushRequest);
 
                     // 通知乘客
                     JSONObject passengerContent = new JSONObject();
@@ -295,8 +298,9 @@ public class OrderInfoService {
                     pushRequest1.setIdentity(IdentityEnum.Passenger.getId());
                     pushRequest1.setContent(passengerContent.toString());
 
-                    // TODO: 2025/6/22  
-//                    serviceSsePushClient.push(pushRequest1);
+                    // TODO: 2025/6/22
+                    log.info("通知乘客端");
+                    serviceSsePushClient.push(pushRequest1);
                     result = 1;
                     lock.unlock();
 
