@@ -1,6 +1,3 @@
-server:
-  port: 8029
-
 
 spring:
   cloud:
@@ -23,6 +20,27 @@ spring:
       port: 5001
       password: mypassword
 
+---
+spring:
+  config:
+    activate:
+      on-profile: 8029
+server:
+  port: 8029
+---
+spring:
+  config:
+    activate:
+      on-profile: 8031
+server:
+  port: 8031
+---
+spring:
+  config:
+    activate:
+      on-profile: 8032
+server:
+  port: 8032
 
 
 amap:
