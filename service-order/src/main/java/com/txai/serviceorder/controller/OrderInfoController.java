@@ -37,6 +37,22 @@ public class OrderInfoController {
         return orderInfoService.add(orderRequest);
     }
 
+    @GetMapping("/test-real-time-order/{orderId}")
+    public ResponseResult add(@PathVariable("orderId") String orderId) {
+        log.info("test dispatch realtime order, orderId = " + orderId);
+        ResponseResult<OrderInfo> detail = orderInfoService.detail(Long.parseLong(orderId));
+        if (detail != null && detail.getData() != null) {
+            int result = orderInfoService.dispatchRealTimeOrder(detail.getData());
+            log.info("dispatch realtime order result is: " + result);
+            if (1 == result) {
+                return ResponseResult.success();
+            }
+        } else {
+            return ResponseResult.fail().setMessage("测试下单失败, 找不到订单");
+        }
+        return ResponseResult.fail().setMessage("测试下单失败");
+    }
+
     /**
      * 订单详情
      *

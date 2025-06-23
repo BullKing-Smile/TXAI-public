@@ -60,4 +60,9 @@ public class OrderController {
 
         return orderService.currentOrder(phone, IdentityEnum.Passenger.getId());
     }
+
+    @GetMapping("/test-real-time-order/{orderId}")
+    public String dispatchOrder(@PathVariable("orderId") long orderId) {
+        return orderService.dispatchRealTimeOrder(orderId);
+    }
 }

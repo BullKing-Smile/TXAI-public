@@ -4,6 +4,7 @@ import com.txai.common.constant.CommonStatusEnum;
 import com.txai.common.constant.TokenTypeEnum;
 import com.txai.common.dto.ResponseResult;
 import com.txai.common.dto.TokenResult;
+import com.txai.common.response.TokenResponse;
 import com.txai.common.util.JwtUtils;
 import com.txai.common.util.RedisPrefixUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;

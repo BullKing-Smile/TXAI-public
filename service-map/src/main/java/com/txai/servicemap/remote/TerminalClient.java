@@ -4,6 +4,7 @@ import com.txai.common.constant.AmapConfigConstants;
 import com.txai.common.dto.ResponseResult;
 import com.txai.common.response.TerminalResponse;
 import com.txai.common.response.TrsearchResponse;
+import org.apache.logging.log4j.util.Base64Util;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,14 +103,14 @@ public class TerminalClient {
             // desc是carId，
             String desc = jsonObject.getString("desc");
             Long carId = Long.parseLong(desc);
-            String tid = jsonObject.getString("tid");
+            String tid = jsonObject.optString("tid");
 
             JSONObject location = jsonObject.getJSONObject("location");
-            String longitude = location.getString("longitude");
-            String latitude = location.getString("latitude");
+            String longitude = location.optString("longitude");
+            String latitude = location.optString("latitude");
 
             terminalResponse.setCarId(carId);
-            terminalResponse.setTid(tid);
+            terminalResponse.setTid(String.valueOf(tid));
             terminalResponse.setLongitude(longitude);
             terminalResponse.setLatitude(latitude);
 

@@ -38,4 +38,8 @@ public class OrderService {
     public ResponseResult<OrderInfo> currentOrder(String phone, String identity) {
         return serviceOrderClient.current(phone, identity);
     }
+
+    public String dispatchRealTimeOrder(Long orderId) {
+        return serviceOrderClient.dispatchRealTimeOrder(orderId);
+    }
 }

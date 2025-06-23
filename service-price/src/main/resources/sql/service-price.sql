@@ -28,7 +28,7 @@ CREATE TABLE `price_rule` (
   `unit_price_per_minute` double(4,2) DEFAULT NULL,
   `fare_version` int(8) DEFAULT NULL,
   `fare_type` varchar(16) DEFAULT NULL,
-  PRIMARY KEY (`city_code`,`vehicle_type`)
+  PRIMARY KEY (`city_code`,`vehicle_type`,`fare_version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------

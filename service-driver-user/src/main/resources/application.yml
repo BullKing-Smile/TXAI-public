@@ -17,3 +17,7 @@ spring:
     url: jdbc:mysql://localhost:13306/service_driver_user?characterEncoding=utf-8&serverTimezone=GMT%2B8
     username: root
     password: password
+
+logging:
+  level:
+    com.txai.servicedriveruser: debug

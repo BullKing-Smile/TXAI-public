@@ -8,9 +8,10 @@ public enum CommonStatusEnum {
     REFRESH_TOKEN_ERROR(1099, "refresh token invalid"),
     USER_NOT_FOUND(2021, "user not found"),
 
-    PRICE_RULE_EXISTS(4010, "price rule not exists"),
-    PRICE_RULE_NOT_EDIT(4011, "price rule not edit"),
-    PRICE_RULE_EMPTY(4012, "price rule empty"),
+    PRICE_RULE_EXISTS(4010, "price rule already exists"),
+    PRICE_RULE_NOT_EXISTS(4011, "Price rule not exists"),
+    PRICE_RULE_NOT_EDIT(4012, "price rule not edit"),
+    PRICE_RULE_EMPTY(4013, "price rule empty"),
     DIC_DISTRICT_NOT_EXISTS(5010, "District not exists"),
     DRIVER_USER_NOT_EXISTS(6010,"Driver user not exists" ),
     DRIVER_BIND_EXISTS(6011, "Driver bind exists"),
@@ -22,7 +23,8 @@ public enum CommonStatusEnum {
     PRICE_RULE_CHANGED(6017, "Price rule changed"),
     CITY_SERVICE_NOT_SERVICE(6018, "No service running in this city"),
     ORDER_GOING_ON(6019, "Order is going on"),
-    ORDER_CANCEL_ERROR(6020, "Order cancel error");
+    ORDER_CANCEL_ERROR(6020, "Order cancel error"),
+    DEVICE_IS_BLACK(6021, "The device is black");
 
     private int code;
     private String value;

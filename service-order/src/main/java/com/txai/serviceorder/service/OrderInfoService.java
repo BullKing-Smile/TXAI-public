@@ -69,6 +69,10 @@ public class OrderInfoService {
 
     /**
      * 新建订单
+     * 拒绝下单的情况
+     * 1. 有正在派单的订单
+     * 2. 有未支付的订单
+     * 3. 在黑名单中的用户
      *
      * @param orderRequest
      * @return
@@ -93,7 +97,7 @@ public class OrderInfoService {
 
         // 需要判断 下单的设备是否是 黑名单设备
 //        if (isBlackDevice(orderRequest)) {
-//            return ResponseResult.fail(CommonStatusEnum.DEVICE_IS_BLACK.getCode(), CommonStatusEnum.DEVICE_IS_BLACK.getValue());
+//            return ResponseResult.fail(CommonStatusEnum.DEVICE_IS_BLACK);
 //        }
 
         // 判断：下单的城市和计价规则是否正常
@@ -243,7 +247,7 @@ public class OrderInfoService {
                     orderInfo.setReceiveOrderTime(LocalDateTime.now());
                     orderInfo.setLicenseId(licenseId);
                     orderInfo.setVehicleNo(vehicleNo);
-                    orderInfo.setOrderStatus(OrderStatusEnum.START.getCode());
+                    orderInfo.setOrderStatus(OrderStatusEnum.DRIVER_RECEIVE_ORDER.getCode());
 
                     orderInfoMapper.updateById(orderInfo);
 

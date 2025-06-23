@@ -1,5 +1,6 @@
 package com.txai.serviceprice.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.txai.common.constant.CommonStatusEnum;
 import com.txai.common.dto.ForecastPriceDTO;
 import com.txai.common.dto.PriceRule;
@@ -47,13 +48,19 @@ public class ForecastPriceService {
             log.warn("get direction info failed");
         }
         // 计价规则
-        Map<String, Object> priceQueryMap = new HashMap<>();
-        priceQueryMap.put("city_code", "110000");
-        priceQueryMap.put("vehicle_type", "1");
-        List<PriceRule> priceRules = priceRuleMapper.selectByMap(priceQueryMap);
+//        Map<String, Object> priceQueryMap = new HashMap<>();
+//        priceQueryMap.put("city_code", "110000");
+//        priceQueryMap.put("vehicle_type", "1");
+
+        // 根据fare_version排序
+        QueryWrapper wrapper = new QueryWrapper();
+        wrapper.eq("city_code", forecastPriceDTO.getCityCode());
+        wrapper.eq("vehicle_type", forecastPriceDTO.getVehicleType());
+        wrapper.orderByDesc("fare_version");
+        List<PriceRule> priceRules = priceRuleMapper.selectList(wrapper);
 
         if (priceRules.size() == 0) {
-            return ResponseResult.fail(CommonStatusEnum.PRICE_RULE_EXISTS);
+            return ResponseResult.fail(CommonStatusEnum.PRICE_RULE_NOT_EXISTS);
         }
 
         // 获得到 计价规则数据对象
