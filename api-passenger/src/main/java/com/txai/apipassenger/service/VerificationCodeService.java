@@ -10,7 +10,6 @@ import com.txai.common.response.NumberCodeResponse;
 import com.txai.common.response.TokenResponse;
 import com.txai.common.util.JwtUtils;
 import com.txai.common.util.RedisPrefixUtils;
-import org.json.JSONObject;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;

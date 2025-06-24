@@ -33,7 +33,7 @@ public class VerificationCodeController {
     }
 
     @PostMapping("/verification-code-check")
-    public ResponseResult verificationCodeCheck(@RequestBody VerificationCodeCheckDTO verificationCodeCheckDTO) {
+    public ResponseResult verificationCodeCheck(@Validated @RequestBody VerificationCodeCheckDTO verificationCodeCheckDTO) {
         return verificationCodeService.verificationCodeCheck(verificationCodeCheckDTO);
     }
 }
