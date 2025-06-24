@@ -1,5 +1,6 @@
 package com.txai.common.dto;
 
+import com.txai.common.constraints.VehicleTypeCheck;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
@@ -18,6 +19,8 @@ public class ForecastPriceDTO {
     @NotBlank(message = "city code not empty")
     @Pattern(regexp = "^\\d{6}$", message = "please input correct city code")
     private String cityCode;
+
+    @VehicleTypeCheck(vehicleTypeValue = {"1","2"})
     @NotBlank(message = "vehicle not empty")
     @Pattern(regexp = "^\\d$", message = "please input correct vehicle type")
     private String vehicleType;
