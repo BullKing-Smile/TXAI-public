@@ -9,3 +9,5 @@
 | api-boss                 | 8027 |
 | api-driver               | 8028 |
 | service-order            | 8029 |
+| service-pay              | 8030 |
+| service-sse-push         | 8901 |
