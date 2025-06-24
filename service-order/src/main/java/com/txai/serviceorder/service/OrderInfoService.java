@@ -272,7 +272,6 @@ public class OrderInfoService {
                     pushRequest.setIdentity(IdentityEnum.Driver.getId());
                     pushRequest.setContent(driverContent.toString());
 
-                    // TODO: 2025/6/22
                     log.info("推送通知司机");
                     serviceSsePushClient.push(pushRequest);
 
@@ -298,7 +297,6 @@ public class OrderInfoService {
                     pushRequest1.setIdentity(IdentityEnum.Passenger.getId());
                     pushRequest1.setContent(passengerContent.toString());
 
-                    // TODO: 2025/6/22
                     log.info("通知乘客端");
                     serviceSsePushClient.push(pushRequest1);
                     result = 1;
