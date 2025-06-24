@@ -25,3 +25,26 @@ git config core.sshCommand "ssh -i ~/.ssh/github_deploy_key"
 ```
 
 
+Passenger Token
+```json
+{
+    "code": 1,
+    "message": "Verification code is valid",
+    "data": {
+        "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVfdGltZSI6IjE3NTA3Mzk2MDU2NjYiLCJwaG9uZSI6IjEzODAwMDA4ODg5IiwiaWRlbnRpdHkiOiIxIiwidG9rZW5UeXBlIjoiMSIsImV4cCI6MTc1MDgyNjAwNX0.qThaDFLKs6e0ypoNqnoJB6kXYv1V3M0EVjpK-EvpzOI",
+        "refreshToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVfdGltZSI6IjE3NTA3Mzk2MDU2NjciLCJwaG9uZSI6IjEzODAwMDA4ODg5IiwiaWRlbnRpdHkiOiIxIiwidG9rZW5UeXBlIjoiMiIsImV4cCI6MTc1MzMzMTYwNX0.dFS1vfFAtyJtxlUVVonu4b0drj3w10Fy8srxBS9MZps"
+    }
+}
+```
+
+Driver Token
+```json
+{
+    "code": 1,
+    "message": "Verification code is valid",
+    "data": {
+        "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVfdGltZSI6IjE3NTA3NDE5Mzc2NjYiLCJwaG9uZSI6IjEzODAwMDA4ODg4IiwiaWRlbnRpdHkiOiIyIiwidG9rZW5UeXBlIjoiMSIsImV4cCI6MTc1MDgyODMzN30.HnPF8yrj96pTbJCjYehmLbMnRvqUT-7Rb6T2FIt5kGA",
+        "refreshToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVfdGltZSI6IjE3NTA3NDE5Mzc2NjgiLCJwaG9uZSI6IjEzODAwMDA4ODg4IiwiaWRlbnRpdHkiOiIyIiwidG9rZW5UeXBlIjoiMiIsImV4cCI6MTc1MzMzMzkzN30.HLGGEwIYsrdmLC5lS1WoP51rln33IRD6_TvP54ZNqog"
+    }
+}
+```

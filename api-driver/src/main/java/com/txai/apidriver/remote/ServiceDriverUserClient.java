@@ -1,9 +1,6 @@
 package com.txai.apidriver.remote;
 
-import com.txai.common.dto.Car;
-import com.txai.common.dto.DriverCarBindingRelationship;
-import com.txai.common.dto.DriverUser;
-import com.txai.common.dto.ResponseResult;
+import com.txai.common.dto.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,5 +27,14 @@ public interface ServiceDriverUserClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/driver-car-binding-relationship/unbind")
     ResponseResult unbind(DriverCarBindingRelationship driverCarBindingRelationship);
+
+    @RequestMapping(method = RequestMethod.POST, value = "/driver-user-work-status")
+    ResponseResult changeWorkStatus(@RequestBody DriverUserWorkStatus driverUserWorkStatus);
+
+    @GetMapping("/driver-car-binding-relationship")
+    ResponseResult<DriverCarBindingRelationship> getDriverCarRelationShip(@RequestParam String driverPhone);
+
+    @GetMapping("/work-status")
+    ResponseResult<DriverUserWorkStatus> getWorkStatus(@RequestParam Long driverId);
 
 }

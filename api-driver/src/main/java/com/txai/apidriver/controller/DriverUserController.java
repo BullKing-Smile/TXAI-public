@@ -2,13 +2,10 @@ package com.txai.apidriver.controller;
 
 import com.txai.apidriver.service.CarService;
 import com.txai.apidriver.service.DriverUserService;
-import com.txai.common.dto.Car;
-import com.txai.common.dto.DriverUser;
-import com.txai.common.dto.ResponseResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import com.txai.common.dto.*;
+import com.txai.common.util.JwtUtils;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class DriverUserController {
@@ -44,10 +41,53 @@ public class DriverUserController {
         return driverUserService.updateDriverUser(driverUser);
     }
 
+    /**
+     * 添加车辆
+     *
+     * @param car new car data
+     * @return
+     */
     @PostMapping("/car")
     public ResponseResult car(@RequestBody Car car) {
         return carService.addCar(car);
     }
 
 
+    /**
+     * 更新司机工作状态
+     *
+     * @param driverUserWorkStatus 司机工作状态
+     * @return
+     */
+    @PostMapping("/driver-user-work-status")
+    public ResponseResult changeWorkStatus(@RequestBody DriverUserWorkStatus driverUserWorkStatus){
+
+        return driverUserService.changeWorkStatus(driverUserWorkStatus);
+    }
+
+    /**
+     * 根据司机token查询 司机和车辆绑定关系
+     * @param request
+     * @return
+     */
+    @GetMapping("/driver-car-binding-relationship")
+    public ResponseResult getDriverCarBindingRelationship(HttpServletRequest request){
+
+        String authorization = request.getHeader("Authorization");
+        TokenResult tokenResult = JwtUtils.checkToken(authorization);
+        String driverPhone = tokenResult.getPhone();
+
+        return driverUserService.getDriverCarBindingRelationship(driverPhone);
+
+    }
+
+    /**
+     * 查看司机工作状态
+     * @param driverId 司机id
+     * @return
+     */
+    @GetMapping("/work-status")
+    public ResponseResult<DriverUserWorkStatus> getWorkStatus(Long driverId){
+        return driverUserService.getWorkStatus(driverId);
+    }
 }
