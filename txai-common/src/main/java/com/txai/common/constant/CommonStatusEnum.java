@@ -24,7 +24,8 @@ public enum CommonStatusEnum {
     CITY_SERVICE_NOT_SERVICE(6018, "No service running in this city"),
     ORDER_GOING_ON(6019, "Order is going on"),
     ORDER_CANCEL_ERROR(6020, "Order cancel error"),
-    DEVICE_IS_BLACK(6021, "The device is black");
+    DEVICE_IS_BLACK(6021, "The device is black"),
+    VALIDATION_EXCEPTION(7001, "validation exception");
 
     private int code;
     private String value;

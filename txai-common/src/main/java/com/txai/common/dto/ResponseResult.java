@@ -29,6 +29,11 @@ public class ResponseResult<T> {
                 .setMessage(CommonStatusEnum.FAIL.getValue());
     }
 
+    public static ResponseResult fail(int code, String message) {
+        return new ResponseResult<>().setCode(code)
+                .setMessage(message);
+    }
+
     public static ResponseResult fail(CommonStatusEnum commonStatusEnum) {
         return new ResponseResult<>().setCode(commonStatusEnum.getCode())
                 .setMessage(commonStatusEnum.getValue());
