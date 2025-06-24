@@ -5,6 +5,7 @@ import com.txai.common.dto.ForecastPriceDTO;
 import com.txai.common.dto.ResponseResult;
 import com.txai.common.response.ForecastPriceResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,7 @@ public class ForecastPriceController {
     }
 
     @PostMapping("/forecast-price")
-    public ResponseResult<ForecastPriceResponse> forecastPrice(@RequestBody ForecastPriceDTO forecastPriceDTO) {
+    public ResponseResult<ForecastPriceResponse> forecastPrice(@Validated @RequestBody ForecastPriceDTO forecastPriceDTO) {
 
         log.info("出发地经度：" + forecastPriceDTO.getDepLongitude());
         log.info("出发地纬度：" + forecastPriceDTO.getDepLatitude());
