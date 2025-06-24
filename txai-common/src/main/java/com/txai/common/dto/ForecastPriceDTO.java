@@ -20,6 +20,7 @@ public class ForecastPriceDTO {
     @Pattern(regexp = "^\\d{6}$", message = "please input correct city code")
     private String cityCode;
 
+    // 也可以结合group属性使用， 用于不同的场景校验， 比如有的需要校验， 有的接口不需要校验
     @VehicleTypeCheck(vehicleTypeValue = {"1","2"})
     @NotBlank(message = "vehicle not empty")
     @Pattern(regexp = "^\\d$", message = "please input correct vehicle type")
