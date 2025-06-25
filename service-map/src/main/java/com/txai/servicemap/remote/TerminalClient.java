@@ -63,7 +63,7 @@ public class TerminalClient {
         String body = stringResponseEntity.getBody();
         JSONObject result = new JSONObject(body);
         JSONObject data = result.getJSONObject("data");
-        String tid = data.getString("tid");
+        String tid = data.optString("tid");
 
         TerminalResponse terminalResponse = new TerminalResponse();
         terminalResponse.setTid(tid);
@@ -101,7 +101,7 @@ public class TerminalClient {
 
             JSONObject jsonObject = results.getJSONObject(i);
             // desc是carId，
-            String desc = jsonObject.getString("desc");
+            String desc = jsonObject.optString("desc");
             Long carId = Long.parseLong(desc);
             String tid = jsonObject.optString("tid");
 

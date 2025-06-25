@@ -43,11 +43,11 @@ public class TrackClient {
         JSONObject result = new JSONObject(body);
         JSONObject data = result.getJSONObject("data");
         // 轨迹id
-        String trid = data.getString("trid");
+        String trid = data.optString("trid");
         // 轨迹名称
         String trname = "";
         if (data.has("trname")) {
-            trname = data.getString("trname");
+            trname = data.optString("trname");
         }
 
         TrackResponse trackResponse = new TrackResponse();

@@ -33,7 +33,7 @@ public class ServiceClient {
         String body = forEntity.getBody();
         JSONObject result = new JSONObject(body);
         JSONObject data = result.getJSONObject("data");
-        String sid = data.getString("sid");
+        String sid = data.optString("sid");
         ServiceResponse serviceResponse = new ServiceResponse();
         serviceResponse.setSid(sid);
 
