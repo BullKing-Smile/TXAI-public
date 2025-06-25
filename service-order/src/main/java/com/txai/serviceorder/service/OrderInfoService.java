@@ -9,6 +9,7 @@ import com.txai.common.dto.Car;
 import com.txai.common.dto.OrderInfo;
 import com.txai.common.dto.PriceRule;
 import com.txai.common.dto.ResponseResult;
+import com.txai.common.request.DriverGrabRequest;
 import com.txai.common.request.OrderRequest;
 import com.txai.common.request.PriceRuleIsNewRequest;
 import com.txai.common.request.PushRequest;
@@ -16,6 +17,8 @@ import com.txai.common.response.OrderDriverResponse;
 import com.txai.common.response.TerminalResponse;
 import com.txai.common.response.TrsearchResponse;
 import com.txai.common.util.RedisPrefixUtils;
+import com.txai.serviceorder.entity.DriverOrderStatistics;
+import com.txai.serviceorder.mapper.DriverOrderStatisticsMapper;
 import com.txai.serviceorder.mapper.OrderInfoMapper;
 import com.txai.serviceorder.remote.ServiceDriverUserClient;
 import com.txai.serviceorder.remote.ServiceMapClient;
@@ -29,8 +32,10 @@ import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
@@ -56,13 +61,16 @@ public class OrderInfoService {
 
     private final ServiceSsePushClient serviceSsePushClient;
 
+    private final DriverOrderStatisticsMapper driverOrderStatisticsMapper;
+
     public OrderInfoService(OrderInfoMapper orderInfoMapper,
                             ServicePriceClient servicePriceClient,
                             ServiceDriverUserClient serviceDriverUserClient,
                             ServiceMapClient serviceMapClient,
                             StringRedisTemplate stringRedisTemplate,
                             RedissonClient redissonClient,
-                            ServiceSsePushClient serviceSsePushClient) {
+                            ServiceSsePushClient serviceSsePushClient,
+                            DriverOrderStatisticsMapper driverOrderStatisticsMapper) {
         this.orderInfoMapper = orderInfoMapper;
         this.servicePriceClient = servicePriceClient;
         this.serviceMapClient = serviceMapClient;
@@ -70,6 +78,7 @@ public class OrderInfoService {
         this.stringRedisTemplate = stringRedisTemplate;
         this.redissonClient = redissonClient;
         this.serviceSsePushClient = serviceSsePushClient;
+        this.driverOrderStatisticsMapper = driverOrderStatisticsMapper;
     }
 
     /**
@@ -836,5 +845,112 @@ public class OrderInfoService {
 
         OrderInfo orderInfo = orderInfoMapper.selectOne(queryWrapper);
         return ResponseResult.success(orderInfo);
+    }
+
+    /**
+     * 司机抢单-基础代码
+     *
+     * @param driverGrabRequest
+     * @return
+     */
+    @Transactional
+    public ResponseResult grab(DriverGrabRequest driverGrabRequest) {
+
+        System.out.println("请求来了：" + driverGrabRequest.getDriverId());
+        Long orderId = driverGrabRequest.getOrderId();
+
+        String orderIdStr = (orderId + "").intern();
+
+        OrderInfo orderInfo = orderInfoMapper.selectById(orderId);
+        if (orderInfo == null) {
+            return ResponseResult.fail(CommonStatusEnum.ORDER_NOT_EXISTS);
+        }
+
+        int orderStatus = orderInfo.getOrderStatus();
+        if (orderStatus != OrderStatusEnum.START.getCode()) {
+            return ResponseResult.fail(CommonStatusEnum.ORDER_CAN_NOT_GRAB);
+        }
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Long driverId = driverGrabRequest.getDriverId();
+        Long carId = driverGrabRequest.getCarId();
+        String licenseId = driverGrabRequest.getLicenseId();
+        String vehicleNo = driverGrabRequest.getVehicleNo();
+        String receiveOrderCarLatitude = driverGrabRequest.getReceiveOrderCarLatitude();
+        String receiveOrderCarLongitude = driverGrabRequest.getReceiveOrderCarLongitude();
+        String vehicleType = driverGrabRequest.getVehicleType();
+        String driverPhone = driverGrabRequest.getDriverPhone();
+
+        orderInfo.setDriverId(driverId);
+        orderInfo.setDriverPhone(driverPhone);
+        orderInfo.setCarId(carId);
+
+        orderInfo.setReceiveOrderCarLongitude(receiveOrderCarLongitude);
+        orderInfo.setReceiveOrderCarLatitude(receiveOrderCarLatitude);
+        orderInfo.setReceiveOrderTime(LocalDateTime.now());
+
+        orderInfo.setLicenseId(licenseId);
+        orderInfo.setVehicleNo(vehicleNo);
+
+        orderInfo.setVehicleType(vehicleType);
+
+        orderInfo.setOrderStatus(OrderStatusEnum.DRIVER_RECEIVE_ORDER.getCode());
+
+        orderInfoMapper.updateById(orderInfo);
+
+//        int i = 1/0;
+
+        // 添加司机当天抢单成功的数量
+        // 先查询当天的数据
+        QueryWrapper<DriverOrderStatistics> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("grab_order_date", LocalDate.now());
+        queryWrapper.eq("driver_id", driverId);
+        DriverOrderStatistics driverOrderStatistics = driverOrderStatisticsMapper.selectOne(queryWrapper);
+        if (driverOrderStatistics == null) {
+            driverOrderStatistics = new DriverOrderStatistics();
+            driverOrderStatistics.setGrabOrderDate(LocalDate.now());
+            driverOrderStatistics.setGrabOrderSuccessCount(1);
+            driverOrderStatistics.setDriverId(driverId);
+            driverOrderStatisticsMapper.insert(driverOrderStatistics);
+        } else {
+            driverOrderStatistics.setGrabOrderSuccessCount(driverOrderStatistics.getGrabOrderSuccessCount() + 1);
+            driverOrderStatisticsMapper.updateById(driverOrderStatistics);
+        }
+
+        // 推送逻辑
+        // 通知乘客
+        JSONObject passengerContent = new JSONObject();
+        passengerContent.put("orderId", orderInfo.getId());
+        passengerContent.put("driverId", orderInfo.getDriverId());
+        passengerContent.put("driverPhone", orderInfo.getDriverPhone());
+        passengerContent.put("vehicleNo", orderInfo.getVehicleNo());
+        // 车辆信息，调用车辆服务
+        ResponseResult<Car> carById = serviceDriverUserClient.getCarById(carId);
+        Car carRemote = carById.getData();
+
+        passengerContent.put("brand", carRemote.getBrand());
+        passengerContent.put("model", carRemote.getModel());
+        passengerContent.put("vehicleColor", carRemote.getVehicleColor());
+
+        passengerContent.put("receiveOrderCarLongitude", orderInfo.getReceiveOrderCarLongitude());
+        passengerContent.put("receiveOrderCarLatitude", orderInfo.getReceiveOrderCarLatitude());
+
+        send(orderInfo.getPassengerId(), IdentityEnum.Passenger.getId(), passengerContent.toString());
+
+
+        return ResponseResult.success();
+
+    }
+
+    public void send(Long id, String identity, String message){
+        PushRequest pushRequest = new PushRequest();
+        pushRequest.setUserId(id);
+        pushRequest.setIdentity(identity);
+        pushRequest.setContent(message);
+
+        serviceSsePushClient.push(pushRequest);
     }
 }

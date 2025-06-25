@@ -1,6 +1,7 @@
 package com.txai.apidriver.remote;
 
 import com.txai.common.dto.*;
+import com.txai.common.response.OrderDriverResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,5 +37,9 @@ public interface ServiceDriverUserClient {
 
     @GetMapping("/work-status")
     ResponseResult<DriverUserWorkStatus> getWorkStatus(@RequestParam Long driverId);
+
+    @GetMapping("/get-available-driver/{carId}")
+    ResponseResult<OrderDriverResponse> getAvailableDriver(@PathVariable("carId") Long carId);
+
 
 }

@@ -15,11 +15,12 @@ public enum CommonStatusEnum {
     PRICE_RULE_NOT_EDIT(4012, "price rule not edit"),
     PRICE_RULE_EMPTY(4013, "price rule empty"),
     DIC_DISTRICT_NOT_EXISTS(5010, "District not exists"),
-    DRIVER_USER_NOT_EXISTS(6010,"Driver user not exists" ),
+    DRIVER_USER_NOT_EXISTS(6010, "Driver user not exists"),
     DRIVER_BIND_EXISTS(6011, "Driver bind exists"),
     CAR_BIND_EXISTS(6012, "Car bind exists"),
     DRIVER_CAR_BIND_NOT_EXISTS(6013, "Driver car bind not exists"),
     DRIVER_CAR_BIND_EXISTS(6014, "Driver car bind exists"),
+    DRIVER_STATUS_UPDATE_ERROR(6015, "Driver status update failed"),
     CAR_NOT_EXISTS(6015, "Car not exists"),
     AVAILABLE_DRIVER_EMPTY(6016, "None driver available"),
     PRICE_RULE_CHANGED(6017, "Price rule changed"),
@@ -27,6 +28,10 @@ public enum CommonStatusEnum {
     ORDER_GOING_ON(6019, "Order is going on"),
     ORDER_CANCEL_ERROR(6020, "Order cancel error"),
     DEVICE_IS_BLACK(6021, "The device is black"),
+    ORDER_UPDATE_ERROR(6022, "Order update error"),
+    ORDER_NOT_EXISTS(6023, "Order not exists"),
+    ORDER_CAN_NOT_GRAB(6024, "Order can't grab"),
+    ORDER_GRABING(6025, "Order grabing"),
     VALIDATION_EXCEPTION(7001, "validation exception");
 
     private int code;

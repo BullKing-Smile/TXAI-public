@@ -3,7 +3,9 @@ package com.txai.serviceorder.controller;
 
 import com.txai.common.dto.OrderInfo;
 import com.txai.common.dto.ResponseResult;
+import com.txai.common.request.DriverGrabRequest;
 import com.txai.common.request.OrderRequest;
+import com.txai.serviceorder.service.GrabService;
 import com.txai.serviceorder.service.OrderInfoService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +18,13 @@ public class OrderInfoController {
 
     private final OrderInfoService orderInfoService;
 
+    private final GrabService grabService;
 
-    public OrderInfoController(OrderInfoService orderInfoService) {
+
+    public OrderInfoController(OrderInfoService orderInfoService,
+                               GrabService grabService) {
         this.orderInfoService = orderInfoService;
+        this.grabService = grabService;
     }
 
     /**
@@ -158,5 +164,17 @@ public class OrderInfoController {
     @GetMapping("/current")
     public ResponseResult current(String phone, String identity) {
         return orderInfoService.current(phone, identity);
+    }
+
+    /**
+     * 司机抢单
+     * @param driverGrabRequest
+     * @return
+     */
+    @PostMapping("/grab")
+    public ResponseResult driverGrab(@RequestBody DriverGrabRequest driverGrabRequest){
+
+        return grabService.grab(driverGrabRequest);
+
     }
 }

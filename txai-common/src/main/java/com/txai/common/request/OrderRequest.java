@@ -49,6 +49,16 @@ public class OrderRequest {
     private String deviceCode;
 
     /**
+     * 接单时车辆经度
+     */
+    private String receiveOrderCarLongitude;
+
+    /**
+     * 接单时车辆纬度
+     */
+    private String receiveOrderCarLatitude;
+
+    /**
      * 司机去接乘客出发时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

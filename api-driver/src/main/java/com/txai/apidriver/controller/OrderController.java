@@ -22,6 +22,31 @@ public class OrderController {
     }
 
     /**
+     * 司机抢单
+     *
+     * @param order
+     * @param httpServletRequest
+     * @return
+     */
+    @PostMapping("/grab")
+//    @GlobalTransactional
+    public ResponseResult grab(@RequestBody OrderRequest order, HttpServletRequest httpServletRequest) {
+        String token = httpServletRequest.getHeader("Authorization");
+        // 从token中获取司机信息
+        TokenResult tokenResult = JwtUtils.parseToken(token);
+        String identity = tokenResult.getIdentity();
+
+        String driverPhone = tokenResult.getPhone();
+
+        Long orderId = order.getOrderId();
+
+        String receiveOrderCarLongitude = order.getReceiveOrderCarLongitude();
+        String receiveOrderCarLatitude = order.getReceiveOrderCarLatitude();
+
+        return apiDriverOrderInfoService.grap(driverPhone, orderId, receiveOrderCarLongitude, receiveOrderCarLatitude);
+    }
+
+    /**
      * 去接乘客
      *
      * @param orderRequest
