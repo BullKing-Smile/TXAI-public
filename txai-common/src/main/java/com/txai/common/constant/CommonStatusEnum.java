@@ -7,6 +7,8 @@ public enum CommonStatusEnum {
     ACCESS_TOKEN_ERROR(1098, "access token invalid"),
     REFRESH_TOKEN_ERROR(1099, "refresh token invalid"),
     USER_NOT_FOUND(2021, "user not found"),
+    CALL_USER_ADD_ERROR(2022, "login or register error"),
+    CHECK_CODE_ERROR(2023, "Check verification code error"),
 
     PRICE_RULE_EXISTS(4010, "price rule already exists"),
     PRICE_RULE_NOT_EXISTS(4011, "Price rule not exists"),
