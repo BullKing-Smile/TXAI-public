@@ -10,17 +10,22 @@ import org.springframework.web.bind.annotation.*;
 public interface ServiceOrderClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/order/add")
-    public ResponseResult add(@RequestBody OrderRequest orderRequest);
+    ResponseResult add(@RequestBody OrderRequest orderRequest);
+
+    @RequestMapping(method = RequestMethod.POST, value = "/order/book")
+    ResponseResult book(@RequestBody OrderRequest orderRequest);
 
     @RequestMapping(method = RequestMethod.GET, value = "/order/test-real-time-order/{orderId}")
-    public String dispatchRealTimeOrder(@PathVariable("orderId") long orderId);
+    String dispatchRealTimeOrder(@PathVariable("orderId") long orderId);
 
     @RequestMapping(method = RequestMethod.POST, value = "/order/cancel")
-    public ResponseResult cancel(@RequestParam Long orderId, @RequestParam String identity);
+    ResponseResult cancel(@RequestParam Long orderId, @RequestParam String identity);
 
     @RequestMapping(method = RequestMethod.GET, value = "/order/detail")
-    public ResponseResult<OrderInfo> detail(@RequestParam Long orderId);
+    ResponseResult<OrderInfo> detail(@RequestParam Long orderId);
 
     @RequestMapping(method = RequestMethod.GET, value = "/order/current")
-    public ResponseResult current(@RequestParam String phone, @RequestParam String identity);
+    ResponseResult current(@RequestParam String phone, @RequestParam String identity);
+
+
 }

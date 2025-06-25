@@ -20,6 +20,10 @@ public class OrderService {
         return serviceOrderClient.add(orderRequest);
     }
 
+    public ResponseResult book(OrderRequest orderRequest) {
+        return serviceOrderClient.book(orderRequest);
+    }
+
     /**
      * 取消订单
      *
@@ -42,4 +46,6 @@ public class OrderService {
     public String dispatchRealTimeOrder(Long orderId) {
         return serviceOrderClient.dispatchRealTimeOrder(orderId);
     }
+
+
 }

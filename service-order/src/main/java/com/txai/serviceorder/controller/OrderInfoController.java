@@ -37,6 +37,16 @@ public class OrderInfoController {
         return orderInfoService.add(orderRequest);
     }
 
+    @PostMapping("/book")
+    public ResponseResult book(@RequestBody OrderRequest orderRequest, HttpServletRequest httpServletRequest) {
+        // 测试通过，通过header获取deviceCode
+//        String deviceCode = httpServletRequest.getHeader(HeaderParamConstants.DEVICE_CODE);
+//        orderRequest.setDeviceCode(deviceCode);
+
+        log.info("service-order" + orderRequest.getAddress());
+        return orderInfoService.book(orderRequest);
+    }
+
     @GetMapping("/test-real-time-order/{orderId}")
     public ResponseResult add(@PathVariable("orderId") String orderId) {
         log.info("test dispatch realtime order, orderId = " + orderId);

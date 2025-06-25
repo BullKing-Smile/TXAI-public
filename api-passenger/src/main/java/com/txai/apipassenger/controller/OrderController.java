@@ -32,6 +32,12 @@ public class OrderController {
         return orderService.add(orderRequest);
     }
 
+    @PostMapping("/book")
+    public ResponseResult book(@RequestBody OrderRequest orderRequest) {
+        System.out.println(orderRequest);
+        return orderService.book(orderRequest);
+    }
+
     /**
      * 乘客取消订单
      *
