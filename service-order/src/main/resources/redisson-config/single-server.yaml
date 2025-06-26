@@ -1,0 +1,3 @@
+singleServerConfig:
+  address: "redis://localhost:5001"
+  database: 1
