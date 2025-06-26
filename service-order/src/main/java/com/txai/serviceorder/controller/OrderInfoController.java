@@ -9,6 +9,7 @@ import com.txai.serviceorder.service.GrabService;
 import com.txai.serviceorder.service.OrderInfoService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,11 +19,25 @@ public class OrderInfoController {
 
     private final OrderInfoService orderInfoService;
 
+// 根据不同的需求使用不同的 Bean
+//    @Qualifier("grabBySingleRedisService")
+//    @Qualifier("grabByMultiRedisService")
+//    @Qualifier("grabByRedisDiyService")
+//    @Qualifier("grabByRedisLuaService")
+    // 默认用这个
+//    @Qualifier("grabByRedissonBasicService")
+//    @Qualifier("grabByRedissonBasicYamlService")
+//    @Qualifier("grabByRedissonMasterSlaveYamlService")
+//    @Qualifier("grabByRedissonSentinelYamlService")
+//    @Qualifier("grabByRedissonClusterYamlService")
+//    @Qualifier("grabByRedissonRedLockService")
+//    @Qualifier("grabByZookeeperDiyService")
+//    @Qualifier("grabByZookeeperCuratorService")
     private final GrabService grabService;
 
 
     public OrderInfoController(OrderInfoService orderInfoService,
-                               GrabService grabService) {
+                               @Qualifier(value = "grabByRedissonBasicService") GrabService grabService) {
         this.orderInfoService = orderInfoService;
         this.grabService = grabService;
     }
