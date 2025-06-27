@@ -20,6 +20,15 @@ spring:
       port: 5001
       password: mypassword
 
+zookeeper:
+  address: localhost:2181
+  timeout: 10000
+
+seata:
+  service:
+    vgroup-mapping.my_tx: seata-tc
+    grouplist.seata-tc: 127.0.0.1:8091
+  tx-service-group: my_tx
 ---
 spring:
   config:

@@ -1,3 +1,4 @@
 singleServerConfig:
   address: "redis://localhost:5001"
+  password: mypassword
   database: 1

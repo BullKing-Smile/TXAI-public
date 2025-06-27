@@ -40,11 +40,11 @@ Passenger Token
 Driver Token
 ```json
 {
-    "code": 1,
-    "message": "Verification code is valid",
-    "data": {
-        "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVfdGltZSI6IjE3NTA3NDE5Mzc2NjYiLCJwaG9uZSI6IjEzODAwMDA4ODg4IiwiaWRlbnRpdHkiOiIyIiwidG9rZW5UeXBlIjoiMSIsImV4cCI6MTc1MDgyODMzN30.HnPF8yrj96pTbJCjYehmLbMnRvqUT-7Rb6T2FIt5kGA",
-        "refreshToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVfdGltZSI6IjE3NTA3NDE5Mzc2NjgiLCJwaG9uZSI6IjEzODAwMDA4ODg4IiwiaWRlbnRpdHkiOiIyIiwidG9rZW5UeXBlIjoiMiIsImV4cCI6MTc1MzMzMzkzN30.HLGGEwIYsrdmLC5lS1WoP51rln33IRD6_TvP54ZNqog"
-    }
+  "code": 1,
+  "message": "success",
+  "data": {
+    "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVfdGltZSI6IjE3NTA5OTk5ODA1MzciLCJwaG9uZSI6IjEzODAwMDA4ODg4IiwiaWRlbnRpdHkiOiIyIiwidG9rZW5UeXBlIjoiMSIsImV4cCI6MTc1MTA4NjM4MH0.kyVooLpoh0iAnDy1RtLtxIRB0rotcIUrgxaXSDMR8_Y",
+    "refreshToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVfdGltZSI6IjE3NTA5OTk5ODA1NDAiLCJwaG9uZSI6IjEzODAwMDA4ODg4IiwiaWRlbnRpdHkiOiIyIiwidG9rZW5UeXBlIjoiMiIsImV4cCI6MTc1MzU5MTk4MH0.6GLdv6qSOmSiWetUYpCPYnQy8aBmtqZxcD9xIQ1yNSM"
+  }
 }
 ```

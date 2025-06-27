@@ -30,6 +30,7 @@ import org.json.JSONObject;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,7 +69,7 @@ public class OrderInfoService {
                             ServiceDriverUserClient serviceDriverUserClient,
                             ServiceMapClient serviceMapClient,
                             StringRedisTemplate stringRedisTemplate,
-                            RedissonClient redissonClient,
+                            @Qualifier(value = "redissonBootYml") RedissonClient redissonClient,
                             ServiceSsePushClient serviceSsePushClient,
                             DriverOrderStatisticsMapper driverOrderStatisticsMapper) {
         this.orderInfoMapper = orderInfoMapper;

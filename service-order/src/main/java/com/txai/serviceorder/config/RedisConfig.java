@@ -52,50 +52,52 @@ public class RedisConfig {
 
     @Bean("redissonMasterSlaveClient")
     public RedissonClient redissonMasterSlaveClient(){
-        Config config = null;
-        try {
-            config = Config.fromYAML(new ClassPathResource("/redisson-config/master-slave-server.yaml").getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        return Redisson.create(config);
+//        Config config = null;
+//        try {
+//            config = Config.fromYAML(new ClassPathResource("/redisson-config/master-slave-server.yaml").getInputStream());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        return Redisson.create(config);
         // 便于测试
 //        return Redisson.create();
+        return redissonClient();
     }
 
     @Bean("redissonSentinelClient")
     public RedissonClient redissonSentinelClient(){
-        Config config = null;
-        try {
-            config = Config.fromYAML(new ClassPathResource("/redisson-config/sentinel.yaml").getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        return Redisson.create(config);
+//        Config config = null;
+//        try {
+//            config = Config.fromYAML(new ClassPathResource("/redisson-config/sentinel.yaml").getInputStream());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        return Redisson.create(config);
 
         // 便于测试
 //        return Redisson.create();
-
+        return redissonClient();
     }
 
     @Bean("redissonClusterClient")
     public RedissonClient redissonClusterClient(){
-        Config config = null;
-        try {
-            config = Config.fromYAML(new ClassPathResource("/redisson-config/cluster.yaml").getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        return Redisson.create(config);
+//        Config config = null;
+//        try {
+//            config = Config.fromYAML(new ClassPathResource("/redisson-config/cluster.yaml").getInputStream());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        return Redisson.create(config);
 
         // 便于测试
 //        return Redisson.create();
+        return redissonClient();
     }
 
 
@@ -108,7 +110,8 @@ public class RedisConfig {
 //
 //        return Redisson.create(config);
         // 便于测试
-        return Redisson.create();
+//        return Redisson.create();
+        return redissonClient();
     }
     @Bean("redissonClient2")
     public RedissonClient redissonClient2(){
@@ -117,7 +120,8 @@ public class RedisConfig {
 //
 //        return Redisson.create(config);
         // 便于测试
-        return Redisson.create();
+//        return Redisson.create();
+        return redissonClient();
     }
 
     @Bean("redissonClient3")
@@ -127,7 +131,8 @@ public class RedisConfig {
 //
 //        return Redisson.create(config);
         // 便于测试
-        return Redisson.create();
+//        return Redisson.create();
+        return redissonClient();
     }
 
     @Bean("redissonClient4")
@@ -137,7 +142,8 @@ public class RedisConfig {
 //
 //        return Redisson.create(config);
         // 便于测试
-        return Redisson.create();
+//        return Redisson.create();
+        return redissonClient();
     }
     @Bean("redissonClient5")
     public RedissonClient redissonClient5(){
@@ -146,6 +152,7 @@ public class RedisConfig {
 //
 //        return Redisson.create(config);
         // 便于测试
-        return Redisson.create();
+//        return Redisson.create();
+        return redissonClient();
     }
 }

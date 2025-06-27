@@ -13,7 +13,7 @@ public class DriverOrderStatistics implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     private Long driverId;
 
@@ -32,11 +32,11 @@ public class DriverOrderStatistics implements Serializable {
         this.driverId = driverId;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -82,3 +82,12 @@ INSERT INTO `order_info` VALUES ('1584370883330600969', '158435566900877311', '1
 INSERT INTO `order_info` VALUES ('1584370883330600970', '1584355669008773132', '18178100668', null, null, null, null, '110000', '2022-10-20 19:38:34', '2022-10-20 05:43:01', '天安门9', '116.40', '39.91', '鸟巢', '116.39', '39.99', '14', '110000$1', '1', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '2022-10-28 21:52:14', '2022-10-28 21:52:14');
 INSERT INTO `order_info` VALUES ('1584370883330600971', '1584355669008773142', '18178111668', null, null, null, null, '110000', '2022-10-20 19:38:34', '2022-10-20 05:43:01', '天安门10', '116.40', '39.91', '鸟巢', '116.39', '39.99', '14', '110000$1', '1', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '2022-10-27 09:11:49', '2022-10-27 09:11:49');
 INSERT INTO `order_info` VALUES ('1589441348365479937', '1584355669008773122', '18178101668', null, null, null, null, '110000', '1992-12-07 19:38:34', '1991-12-06 05:43:01', 'cupidatat voluptate dolore', '116.40', '39.91', 'culpa Lorem sit', '110.365', '32.522', '14', '110000$1', '6', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '2022-11-07 10:15:22', '2022-11-07 10:15:22');
+
+
+create table if not exists `driver_order_statistics` (
+    `id` bigint(32) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+    `driver_id` bigint(32) DEFAULT NULL COMMENT '司机ID',
+    `grab_order_success_count` int not null default 0 comment '服务订单数量',
+    `grab_order_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '抢单时间',
+    PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=1589441348365479938 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

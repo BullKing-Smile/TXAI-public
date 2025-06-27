@@ -9,6 +9,7 @@ import com.txai.common.dto.TokenResult;
 import com.txai.common.request.OrderRequest;
 import com.txai.common.util.JwtUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.seata.spring.annotation.GlobalTransactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,12 +25,14 @@ public class OrderController {
     /**
      * 司机抢单
      *
+     * 使用 Seata 实现分布式事务
+     *
      * @param order
      * @param httpServletRequest
      * @return
      */
     @PostMapping("/grab")
-//    @GlobalTransactional
+    @GlobalTransactional
     public ResponseResult grab(@RequestBody OrderRequest order, HttpServletRequest httpServletRequest) {
         String token = httpServletRequest.getHeader("Authorization");
         // 从token中获取司机信息

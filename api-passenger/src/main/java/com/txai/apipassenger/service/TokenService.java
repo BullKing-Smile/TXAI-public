@@ -52,7 +52,7 @@ public class TokenService {
         // store new tokens to Redis
         redisTemplate.opsForValue().set(refreshTokenKey, refreshTokenNew, 24, TimeUnit.HOURS);
         String accessTokenKey = RedisPrefixUtils.getTokenKeyByIdentity(phone, identity, TokenTypeEnum.Access.getValue());
-        redisTemplate.opsForValue().set(accessTokenKey, accessTokenKey, 30, TimeUnit.DAYS);
+        redisTemplate.opsForValue().set(accessTokenKey, accessTokenNew, 30, TimeUnit.DAYS);
 
         // combine response body
         TokenResponse tokenResponse = new TokenResponse();

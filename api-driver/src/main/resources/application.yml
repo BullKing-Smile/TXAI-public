@@ -17,6 +17,12 @@ spring:
       port: 5001
       password: mypassword
 
+seata:
+  service:
+    vgroup-mapping.my_tx: seata-tc
+    grouplist.seata-tc: 127.0.0.1:8091
+  tx-service-group: my_tx
+
 #  datasource:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://localhost:13306/service_driver_user?characterEncoding=utf-8&serverTimezone=GMT%2B8
