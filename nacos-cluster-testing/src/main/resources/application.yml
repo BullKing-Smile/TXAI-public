@@ -1,0 +1,19 @@
+server:
+  port: 8033
+
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+#        server-addr: localhost:8851
+        username: nacos
+        password: nacos
+        service: ${spring.application.name}
+        server-addr: 127.0.0.1:8853
+  application:
+    name: nacos-cluster-testing
+
+logging:
+  level:
+    com.txai.nacosclustertesting: debug

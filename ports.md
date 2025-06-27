@@ -11,3 +11,4 @@
 | service-order            | 8029 |
 | service-pay              | 8030 |
 | service-sse-push         | 8901 |
+| nacos-cluster-testing    | 8033 |
