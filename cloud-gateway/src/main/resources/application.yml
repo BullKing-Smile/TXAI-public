@@ -3,6 +3,11 @@ server:
 
 
 spring:
+  data:
+    redis:
+      host: localhost
+      port: 5001
+      password: mypassword
   cloud:
     nacos:
       discovery:
@@ -28,19 +33,23 @@ spring:
           predicates:
             - Path=/api-passenger/**
           filters:
-            - StripPrefix=1
+#            - StripPrefix=1
         - id: api-driver
           uri: lb://api-driver
           predicates:
             - Path=/api-driver/**
           filters:
-            - StripPrefix=1
+#            - StripPrefix=1
         - id: api-boss
           uri: lb://api-boss
           predicates:
             - Path=/api-boss/**
           filters:
-            - StripPrefix=1
+#            - StripPrefix=1
 
   application:
     name: cloud-gateway
+
+logging:
+  level:
+    com.springframework: info

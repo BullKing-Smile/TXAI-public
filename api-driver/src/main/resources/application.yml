@@ -1,5 +1,7 @@
 server:
   port: 8028
+  servlet:
+    context-path: /api-driver
 
 spring:
   cloud:

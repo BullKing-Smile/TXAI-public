@@ -1,6 +1,7 @@
 server:
   port: 8021
-
+  servlet:
+    context-path: /api-passenger
 
 spring:
   cloud:
