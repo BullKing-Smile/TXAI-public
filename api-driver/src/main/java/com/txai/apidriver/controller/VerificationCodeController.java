@@ -1,9 +1,11 @@
 package com.txai.apidriver.controller;
 
+import com.txai.apidriver.request.VerificationCodeDTO;
 import com.txai.apidriver.service.VerificationCodeService;
 import com.txai.common.dto.ResponseResult;
 import com.txai.common.request.VerificationCodeCheckDTO;
 import com.txai.common.response.NumberCodeResponse;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,10 +20,12 @@ public class VerificationCodeController {
         this.verificationCodeService = verificationCodeService;
     }
 
-    @GetMapping("/verification-code/{driverPhone}")
-    public ResponseResult<NumberCodeResponse> verificationCode(@PathVariable("driverPhone") String driverPhone) {
-        System.out.println("received phone number is:" + driverPhone);
-        return verificationCodeService.generateCode(driverPhone);
+    @GetMapping("/verification-code")
+    public ResponseResult<NumberCodeResponse> verificationCode(@Validated @RequestBody VerificationCodeDTO verificationCodeDTO) {
+        String phone = verificationCodeDTO.getDriverPhone();
+        int size = verificationCodeDTO.getSize();
+        System.out.println("received phone number is:" + phone + ", and size is:" + size);
+        return verificationCodeService.generateCode(phone, size);
     }
 
     /**

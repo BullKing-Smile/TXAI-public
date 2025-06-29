@@ -36,7 +36,7 @@ public class VerificationCodeService {
         this.redisTemplate = redisTemplate;
     }
 
-    public ResponseResult<NumberCodeResponse> generateCode(String driverPhone) {
+    public ResponseResult<NumberCodeResponse> generateCode(String driverPhone, int size) {
 
         // first step , check driver user exists or not
         // if not exists, directly return failed message
@@ -49,7 +49,7 @@ public class VerificationCodeService {
         // if driver user is exists, generate code pls
 
         System.out.println("调用验证码服务，获取验证码");
-        ResponseResult<NumberCodeResponse> numberCodeResponse = serviceVerficationCodeClient.numberCode(4);
+        ResponseResult<NumberCodeResponse> numberCodeResponse = serviceVerficationCodeClient.numberCode(size);
         Integer code = numberCodeResponse
                 .getData().getNumberCode();
         System.out.println("remote number code: " + code);

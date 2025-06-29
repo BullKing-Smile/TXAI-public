@@ -23,5 +23,24 @@ spring:
           filters:
             - StripPrefix=1
 
+        - id: api-passenger
+          uri: lb://api-passenger
+          predicates:
+            - Path=/api-passenger/**
+          filters:
+            - StripPrefix=1
+        - id: api-driver
+          uri: lb://api-driver
+          predicates:
+            - Path=/api-driver/**
+          filters:
+            - StripPrefix=1
+        - id: api-boss
+          uri: lb://api-boss
+          predicates:
+            - Path=/api-boss/**
+          filters:
+            - StripPrefix=1
+
   application:
     name: cloud-gateway
