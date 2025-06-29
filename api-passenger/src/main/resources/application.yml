@@ -10,6 +10,29 @@ spring:
         username: nacos
         password: nacos
         cluster-name: sh
+    openfeign:
+      client:
+        config:
+          default:
+            connect-timeout: 1000
+            read-timeout: 500
+
+    sentinel:
+      transport:
+        dashboard: localhost:8070
+      web-context-unify: false
+      datasource:
+        api-passenger-sentinel-flow-rule:
+          nacos:
+            server-addr: 127.0.0.1:8848
+            username: nacos
+            password: nacos
+            data-id: api-passenger-sentinel-flow-rule
+            group-id: sentinel_group
+            data-type: json
+            rule-type: flow
+
+
   application:
     name: api-passenger
   data:
@@ -18,6 +41,13 @@ spring:
       port: 5001
 #      username: reids
       password: mypassword
+
+# 暴露Actuator端点
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'
 
 #spring:
 #  config:

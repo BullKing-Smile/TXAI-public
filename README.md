@@ -28,12 +28,12 @@ git config core.sshCommand "ssh -i ~/.ssh/github_deploy_key"
 Passenger Token
 ```json
 {
-    "code": 1,
-    "message": "Verification code is valid",
-    "data": {
-        "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVfdGltZSI6IjE3NTA3Mzk2MDU2NjYiLCJwaG9uZSI6IjEzODAwMDA4ODg5IiwiaWRlbnRpdHkiOiIxIiwidG9rZW5UeXBlIjoiMSIsImV4cCI6MTc1MDgyNjAwNX0.qThaDFLKs6e0ypoNqnoJB6kXYv1V3M0EVjpK-EvpzOI",
-        "refreshToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVfdGltZSI6IjE3NTA3Mzk2MDU2NjciLCJwaG9uZSI6IjEzODAwMDA4ODg5IiwiaWRlbnRpdHkiOiIxIiwidG9rZW5UeXBlIjoiMiIsImV4cCI6MTc1MzMzMTYwNX0.dFS1vfFAtyJtxlUVVonu4b0drj3w10Fy8srxBS9MZps"
-    }
+  "code": 1,
+  "message": "success",
+  "data": {
+    "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVfdGltZSI6IjE3NTExNzk5OTg5NzQiLCJwaG9uZSI6IjEzODAwMDA4ODg5IiwiaWRlbnRpdHkiOiIxIiwidG9rZW5UeXBlIjoiMSIsImV4cCI6MTc1MTI2NjM5OH0.MsNzLOyt84IPNyeRrPQg1WD2flNeYnuMPVsHgNoeb2g",
+    "refreshToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVfdGltZSI6IjE3NTExNzk5OTg5NzkiLCJwaG9uZSI6IjEzODAwMDA4ODg5IiwiaWRlbnRpdHkiOiIxIiwidG9rZW5UeXBlIjoiMiIsImV4cCI6MTc1Mzc3MTk5OH0.ZDNM4EvfLW3ZiGCKVYt52E-SCPu831a4plPo0aggQXw"
+  }
 }
 ```
 

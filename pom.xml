@@ -34,6 +34,8 @@
         <module>service-sse-push</module>
         <module>service-pay</module>
         <module>nacos-cluster-testing</module>
+        <module>sentinel-token-server</module>
+        <module>cloud-gateway</module>
     </modules>
     <packaging>pom</packaging>
 
