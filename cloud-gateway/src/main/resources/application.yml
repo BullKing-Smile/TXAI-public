@@ -10,5 +10,18 @@ spring:
         username: nacos
         password: nacos
 
+    gateway:
+      routes:
+        - id: order
+#          uri: http://localhost:8029
+#          predicates:
+#            - Path= /order/**
+          uri: lb://service-order
+          predicates:
+            - Path= /service-order/**
+            - After=2025-06-29T17:31:00.789+08:00[Asia/Shanghai]
+          filters:
+            - StripPrefix=1
+
   application:
     name: cloud-gateway
