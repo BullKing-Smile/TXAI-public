@@ -6,6 +6,12 @@ spring:
         server-addr: 127.0.0.1:8848
         username: nacos
         password: nacos
+
+    sentinel:
+      transport:
+        dashboard: localhost:8070
+      web-context-unify: false
+
   application:
     name: service-order
 

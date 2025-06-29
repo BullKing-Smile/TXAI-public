@@ -1,6 +1,7 @@
 package com.txai.serviceorder.controller;
 
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.txai.common.dto.OrderInfo;
 import com.txai.common.dto.ResponseResult;
 import com.txai.common.request.DriverGrabRequest;
@@ -90,6 +91,7 @@ public class OrderInfoController {
      * @param orderId
      * @return
      */
+    @SentinelResource("order-detail")
     @GetMapping("/detail")
     public ResponseResult<OrderInfo> detail(Long orderId) {
         return orderInfoService.detail(orderId);
