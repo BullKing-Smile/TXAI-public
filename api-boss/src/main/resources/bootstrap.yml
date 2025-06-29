@@ -1,0 +1,28 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        username: nacos
+        password: nacos
+        group: DEFAULT_GROUP
+        namespace: edb19551-4867-4896-b68e-bb2cffad85fc
+      config:
+        server-addr: 127.0.0.1:8848
+        username: nacos
+        password: nacos
+        group: DEFAULT_GROUP
+        namespace: edb19551-4867-4896-b68e-bb2cffad85fc
+        file-extension: yaml
+        refresh-enabled: true
+        shared-configs:
+          - data-id: api-boss-dev.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+  config:
+    import: optional:nacos
+  profiles:
+    active: dev
+  application:
+    name: api-boss
+
